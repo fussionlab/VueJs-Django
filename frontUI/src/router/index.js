@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from '../../frontUI/node_modules/vue-router'
+import VueRouter from 'vue-router'
 import Home from '../views/Home'
 import Page from '../views/page/Page'
 import Admin from '../views/admin/admin'
