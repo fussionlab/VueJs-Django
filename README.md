@@ -263,22 +263,32 @@ Let’s restart the server and visit this address — [http://localhost:8000/api
 $ python manage.py runserver
 ```
 
-We can perform ADD, DELETE and UPDATE operations on specific Todo items using their id primary keys. To do this, we will visit an address with this structure /api/blog/id. Let’s try with this address — http://localhost:8000/blog/1
-Create a first post in /api/blog add the slug feild will be if your **title** is like ***My first Post*** then slug feild should be like *my-first-post*.
+We can perform ADD, DELETE and UPDATE operations on specific blog post using their id primary keys. To do this, we will visit an address with this structure /api/blog/id. Let’s try with this address — http://localhost:8000/blog/1
+Create a first post in /api/blog add the slug field will be if your **title** is like ***My first Post*** then slug field should be like *my-first-post*.
 
-Appling filter to post using the slug if you need to get post with slug or id example http://localhost:80000/api/blog/my-first-post or http://localhost:8000/blog/1 points to same post.
+## Setting up the frontend
 
-Open the blog/view.py and add following code below Class PostView:
-```py
-	 # blog/views.py
-	from django.shortcuts import render
+We have our backend running as it should, now we will create our frontend and make it communicate with the backend over the interface that we created.
 
-	# Create your views here.
-	from rest_framework import viewsets       # add this
-	from .serializers import BlogSerializer   # add this
-	from .models import Post                  # add this
+To install the vue/cli , in a terminal or command prompt type:
+```zsh
+ $ npm install -g @vue/cli
+```
+This may take a few minutes to install. You can now create a new Vue.js application by typing:
+```bash
+ $ vue create frontUI
+```
+where frontUI is the name of the folder for your application. You will be prompted to select a preset and you can keep the default (babel, eslint), which will use Babel to transpile the JavaScript to browser compatible ES5 and install the ESLint linter to detect coding errors. It may take a few minutes to create the Vue application and install its dependencies.
 
-	class PostView(viewsets.ModelViewSet):       # add this
-	    serializer_class =  BlogSerializer       # add this
-	    queryset = Post.objects.all()
+Let's quickly run our Vue application by navigating to the new folder and typing npm run serve to start the web server and open the application in a browser:
+```bash
+ $ cd frontUI
+ $ npm run serve
+```
+You should see "Welcome to your Vue.js App" on http://localhost:8080 in your browser. You can press Ctrl+C to stop the vue-cli-service server.
+
+To open your Vue application in VS Code, from a terminal (or command prompt), navigate to the frontUI folder and type code .:
+```cmd
+cd my-app
+code .
 ```
