@@ -1,5 +1,6 @@
 
-# ```diff ! Build a Simple Blog application Using Django and VUE ```
+# ```diff 
+ ! Build a Simple Blog application Using Django and VUE ```
     Vue and Django rest framework
 
  ## Table of Contents
