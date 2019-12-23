@@ -1,5 +1,5 @@
 
-# Build a Simple Blog application Using Django and VUE
+# Build a Simple Blog application Using Django and<span style="color:green"> VUE</span>
     Vue and Django rest framework
 
  # Table of Contents
