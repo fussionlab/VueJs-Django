@@ -143,9 +143,10 @@ class PostAdmin(admin.ModelAdmin):
 admin.site.register(Post, PostAdmin)
 ```
 We will create a superuser account to access the admin interface with this command:
+
 ```zsh
 $ python manage.py createsuperuser
-``
+```
    "You will be prompted to enter a username, email and password for the superuser. Be sure to enter details that you can remember because you will need them to log in to the admin dashboard shortly."
    
 Let’s start the server once more and log in on the address — [http://localhost:8000/admin](http://localhost:8000/admin)
@@ -196,7 +197,8 @@ Add this code snippet to the bottom of the backend/settings.py file:
      )
 ```
 Django-cors-headers is a python library that will help in preventing the errors that we would normally get due to CORS. rules. In the CORS_ORIGIN_WHITELIST snippet, we whitelisted localhost:8080 because we want the frontend (which will be served on that port) of the application to interact with the API.
-Creating serializers for the Todo model
+
+### Creating serializers for the blog model
 
 We need serializers to convert model instances to JSON so that the frontend can work with the received data easily. We will create a blog/serializers.py file:
 ```zsh
@@ -204,19 +206,19 @@ We need serializers to convert model instances to JSON so that the frontend can 
 ```
 Open the serializers.py file and update it with the following code.
 ```py
-    # blog/serializers.py
-    from rest_framework import serializers
-from .models import Post
+	# blog/serializers.py
+	from rest_framework import serializers
+	from .models import Post
 
-class BlogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ('id','title', 'slug', 'author','content','status','created_on')
+	class BlogSerializer(serializers.ModelSerializer):
+	class Meta:
+	model = Post
+	fields = ('id','title', 'slug', 'author','content','status','created_on')
 ```
 In the code snippet above, we specified the model to work with and the fields we want to be converted to JSON.
 ### Creating the View
 
-We will create a TodoView class in the blog/views.py file, so update it with the following code:
+We will create a PostView class in the blog/views.py file, so update it with the following code:
 ```py
     # blog/views.py
 	from django.shortcuts import render
@@ -251,13 +253,32 @@ Head over to the honeybee/urls.py file and completely replace it with the code b
 ```
 This is the final step that completes the building of the API, we can now perform CRUD operations on the blog model. The router class allows us to make the following queries:
 
-    /blog/ - This returns a list of all the Todo items (Create and Read operations can be done here).
+    /blog/ - This returns a list of all the blog post (Create and Read operations can be done here).
 
-    /blog/id - this returns a single Todo item using the id primary key (Update and Delete operations can be done here).
+    /blog/id - this returns a single blog post using the id primary key (Update and Delete operations can be done here).
 
 Let’s restart the server and visit this address — [http://localhost:8000/api/blog](http://localhost:8000/api/blog):
+
 ```zsh
 $ python manage.py runserver
 ```
-We can perform ADD, DELETE and UPDATE operations on specific Todo items using their id primary keys. To do this, we will visit an address with this structure /api/blog/id. Let’s try with this address — http://localhost:8000/blog/todos/1
-Create a first post in /api/blog add slug if your *title* is like ***My first Post*** then slug should be like *my-first-post* 
+
+We can perform ADD, DELETE and UPDATE operations on specific Todo items using their id primary keys. To do this, we will visit an address with this structure /api/blog/id. Let’s try with this address — http://localhost:8000/blog/1
+Create a first post in /api/blog add the slug feild will be if your **title** is like ***My first Post*** then slug feild should be like *my-first-post*.
+
+Appling filter to post using the slug if you need to get post with slug or id example http://localhost:80000/api/blog/my-first-post or http://localhost:8000/blog/1 points to same post.
+
+Open the blog/view.py and add following code below Class PostView:
+```py
+	 # blog/views.py
+	from django.shortcuts import render
+
+	# Create your views here.
+	from rest_framework import viewsets       # add this
+	from .serializers import BlogSerializer   # add this
+	from .models import Post                  # add this
+
+	class PostView(viewsets.ModelViewSet):       # add this
+	    serializer_class =  BlogSerializer       # add this
+	    queryset = Post.objects.all()
+```
