@@ -1,7 +1,7 @@
 
-# ```diff 
- ! Build a Simple Blog application Using Django and VUE ```
-    Vue and Django rest framework
+# Build a Simple Blog application Using Django and VUE 
+    
+    Vue CLI and Django Reset framework
 
  ## Table of Contents
 
@@ -110,13 +110,13 @@ The code snippet above describes seven properties on the Blog model:
     
   Slug is url for the post by the reference of it's title and Status is for save as draft or publish the post
 
-```bash 
+```git 
 $ python manage.py makemigrations blog
 $ python manage.py migrate blog
 ```
 You should see something similar to the following:
 
-```pr
+```py
 Migrations for 'blog':
   blog/migrations/0001_initial.py:
     - Create model Post
