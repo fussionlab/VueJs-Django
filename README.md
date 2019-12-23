@@ -1,3 +1,6 @@
+```py 
+   green
+```
 # Build a Simple Blog application Using Django and VUE
     Vue and Django rest framework
 
@@ -55,7 +58,7 @@ At this point, if all the commands were entered correctly, we should see an inst
 Registering the blog application
 
 We are done with the basic setup for the honeybee, let’s start with the more advanced things like registering the honeybee application as an installed app so that Django can recognise it. Open the backend/settings.py file and update the INSTALLED_APPS section as so:
-
+```py 
     # honeybee/settings.py
 
     # Application definition
@@ -68,7 +71,7 @@ We are done with the basic setup for the honeybee, let’s start with the more a
         'django.contrib.staticfiles',
         'blog'  # add this line 
       ]
-      
+ ```     
 ## Defining the Blog model
 
  Let's create a model to define how the Blog items should be stored in the database, open the blog/models.py file and update it with this snippet: 
