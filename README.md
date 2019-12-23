@@ -287,8 +287,8 @@ Let's quickly run our Vue application by navigating to the new folder and typing
 ```
 You should see "Welcome to your Vue.js App" on http://localhost:8080 in your browser. You can press Ctrl+C to stop the vue-cli-service server.
 
-To open your Vue application in VS Code, from a terminal (or command prompt), navigate to the frontUI folder and type code .:
-```cmd
-cd my-app
-code .
-```
+we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
+
+```bash
+ $ npm i bootstrap bootstrap-vue sass-loader node-sass --save
+ ```
