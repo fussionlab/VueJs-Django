@@ -21,29 +21,30 @@
 		
  ### Setting up the Backend
 
-	In this section, we will set up the backend and create all the folders that we need to get things up and running, so launch a new instance of a terminal and create the project’s directory by running this command:
-	  $mkdir Vue-Django
+In this section, we will set up the backend and create all the folders that we need to get things up and running, so launch a new instance of a terminal and create the project’s directory by running this command:
+	  
+  $ mkdir Vue-Django
 	
-	Next, we will navigate into the directory:
+Next, we will navigate into the directory:
 
  $ cd Vue-Django
 
 Now we will install Pipenv using pip and activate a new virtual environment:
 
-    $ pip install pipenv
-    $ pipenv shell
+ $ pip install pipenv
+ $ pipenv shell
 
-    'Note: You should skip the first command if you already have Pipenv installed.'
+```Note: You should skip the first command if you already have Pipenv installed.```
 
-Let’s install Django using Pipenv then create a new project called backend:
+Let’s install Django using Pipenv then create a new project called honeybee:
 
-    $ pipenv install django
-    $ django-admin startproject backend
+  $ pipenv install django
+  $ django-admin startproject honeybee
 
 Next, we will navigate into the newly created backend folder and start a new application called todo. We will also run migrations and start up the server:
 
     $ cd backend
-    $ python manage.py startapp todo
+    $ python manage.py startapp honeybee
     $ python manage.py migrate
     $ python manage.py runserver
 
