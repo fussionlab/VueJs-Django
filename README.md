@@ -1,8 +1,8 @@
 
-# Build a Simple Blog application Using Django and<span style="color:green"> VUE</span>
+# ```diff ! Build a Simple Blog application Using Django and VUE ```
     Vue and Django rest framework
 
- # Table of Contents
+ ## Table of Contents
 
     #Prerequisites
     #Setting up the Backend
@@ -70,7 +70,7 @@ We are done with the basic setup for the honeybee, let’s start with the more a
         'blog'  # add this line 
       ]
  ```     
-## Defining the Blog model
+### Defining the Blog model
 
  Let's create a model to define how the Blog items should be stored in the database, open the blog/models.py file and update it with this snippet: 
  ```py	# blog/model.py 
@@ -124,3 +124,8 @@ By running makemigrations, you’re telling Django that you’ve made some chang
 
 Migrations are how Django stores changes to your models (and thus your database schema) - they’re files on disk. You can read the migration for your new model if you like; it’s the file blog/migrations/0001_initial.py. Don’t worry, you’re not expected to read them every time Django makes one, but they’re designed to be human-editable in case you want to manually tweak how Django changes things.
 for more details [Link](https://docs.djangoproject.com/en/3.0/intro/tutorial02/)
+
+We can test to see that CRUD operations work on the Blog model we created using the admin interface that Django provides out of the box, but first, we will do a little configuration.
+
+Open the blog/admin.py file and update it accordingly:
+```
