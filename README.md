@@ -127,7 +127,7 @@ Migrations are how Django stores changes to your models (and thus your database 
 for more details [Link](https://docs.djangoproject.com/en/3.0/intro/tutorial02/)
 
 We can test to see that CRUD operations work on the Blog model we created using the admin interface that Django provides out of the box, but first, we will do a little configuration.
-
+### Adding controls to Admin
 Open the ```blog/admin.py``` file and update it accordingly:
 ```py 
 from django.contrib import admin
@@ -574,14 +574,15 @@ Let it install and on time being we can add bootstrap to our style in `src/App.v
 ```html
 <style lang="scss">
 @import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'assets/fontawesome/css/all.min.css';
 </style>
 ``` 
-This show how to use normal bootstrap on our code. Now check `axios` is installed.
+This show how to use normal bootstrap and fontawesome (download the fontawesome manually form site.[Click here](https://fontawesome.com/download) got to downloading Page) on our code . Now check `axios` is installed.
 
 Then open `src/view/Home.vue` and change the code as below:
 ```html
 <template>
-  <div class="home container">
+  <div class="container">
     <div class="row">
       <div class="col-md-12">
         <h1>Blog Posts</h1>
@@ -743,3 +744,772 @@ class Hitslike(models.Model):
       post = models.ForeignKey('Post', on_delete=models.CASCADE)
 ```
 In the above `Comment` Model `post` is the foreignkey which stores the postid, Here we no need to specify `id` because `Django` create a default feild called `id`. Like that All three model have a relation with `Post` model. 
+
+Then command 
+```bash
+  $ python manage.py makemigrations
+  $ python manage.py migrate
+ ```
+ Next, We can add serializers for reply, comment, and hitslike as below
+ ``py
+from rest_framework import serializers
+from .models import Post, Comment, ReplyComment, Hitslike
+
+#Serilaizer for Posts
+class BlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('id','title', 'slug', 'author','content','status','created_on')
+	
+#Serilaizer for Comments        
+class CommentSerilaizer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id','author','body','created_on','post')
+	
+#Serilaizer for Replys
+class ReplyCommentSerilaizer(serializers.ModelSerializer):
+    class Meta:
+        model = ReplyComment
+        fields = ('id','author','body','created_on','post','comment')
+	
+#Serilaizer for Views and Likes
+class HitsLikeSerilaizer(serializers.ModelSerializer):
+    class Meta:
+        model = Hitslike
+        fields = ('id','hitcount','viewcount','post')
+```
+Save it, Next we add a view for all open `blog/views.py`
+
+```py
+from django.shortcuts import render
+
+# Create your views here.
+from rest_framework import viewsets      
+from .serializers import BlogSerializer, CommentSerilaizer, ReplyCommentSerilaizer, HitsLikeSerilaizer    # add this
+from .models import Post, Comment, ReplyComment, Hitslike   # add this
+
+class PostView(viewsets.ModelViewSet):      
+    serializer_class =  BlogSerializer      
+    queryset = Post.objects.all()  
+    
+class CommentView(viewsets.ModelViewSet):  # add this
+    serializer_class =  CommentSerilaizer      
+    queryset = Comment.objects.all()  
+    
+    def get_queryset(self):
+        qs = Comment.objects.all()  
+        posts = self.request.query_params.get('post',None)
+        
+        if posts is not None:
+            return qs.filter(post=posts) #return the comments /comment/?post=1
+        return qs
+	
+class ReplyCommentView(viewsets.ModelViewSet): # add this
+    serializer_class =  ReplyCommentSerilaizer       
+    queryset = ReplyComment.objects.all()  
+    
+    def get_queryset(self):
+        qs = ReplyComment.objects.all()  
+        com = self.request.query_params.get('comment',None)
+        pos = self.request.query_params.get('post', None)
+        
+        if pos is not None and com is not None:
+            return qs.filter(post=pos,comment=com)
+        elif pos is not None or com is not None:
+            return qs.filter(post=pos)  
+        return qs
+	
+class HitsLikesCountView(viewsets.ModelViewSet):  # add this
+    serializer_class =  HitsLikeSerilaizer      
+    queryset = Hitslike.objects.all()  
+    
+    def get_queryset(self):
+        qs = Hitslike.objects.all()  
+        pos = self.request.query_params.get('post',None)
+        if pos is not None:
+            return qs.filter(post=pos)
+        return qs
+```
+Update your views like above. Next we can add links to those views in `honeybee/urls.py`, Open `urls.py` add
+
+```py
+"""honeybee URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+from rest_framework import routers                   
+from blog import views                               
+router = routers.DefaultRouter()                     
+router.register(r'blog', views.PostView, 'post')     
+router.register(r'comment', views.CommentView, 'comment')     # add this
+router.register(r'replys', views.ReplyCommentView, 'replys')     # add this
+router.register(r'hitlike', views.HitsLikesCountView, 'hitlike')     # add this
+
+urlpatterns = [
+    path('admin/', admin.site.urls),       
+    path('api/', include(router.urls))                # add this
+]
+```
+Next, Run the server ( Note: If you controls on admin you can add those to `admin.py` [Reference](https://github.com/fussionlab/vue-Django#add-controls-to-admin) repeat the step by adding models and fields to it)
+
+```bash
+$ python manage.py runserver
+
+```
+Next section update the `Home.vue` to add likes count, comments count, and views count.
+Open `src/views/Home.vue' add the following code to it.
+
+```html
+<template>
+  <div class="home container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Blog Posts</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 p-1" v-for="(p, index) in items" :key="index">
+        <div class="card">
+          <img src="../assets/1.jpg" alt="" class="w-100" />
+          <div class="card-body">
+            <h4 class="card-title">{{ p.title }}</h4>
+            <p class="card-text" v-if="p.content.length>100">{{ p.content.substring(0, 100)+ '...' }}</p>
+            <!-- <span class="btn-circle btn-success" v-if="p.completed">&check;</span>
+      <span class="btn-circle btn-warning" v-else>&cross;</span> -->
+            <a v-on:click="ViewClick(p.id, hitlike[p.id-1].viewcount)"   class="btn btn-primary text-light" >Read more</a>
+          </div>
+          <div class="card-footer">
+            <input type="hidden"  name="PostID"  :value='p.id' />
+            <ul>
+              <span v-for='hl in hitLikeFilter(p.id)' :key="hl.id">
+              <li class="btn btn-default">
+                 <i v-bind:class="DataCon(hl.hitcount)>=1?'fa fa-heart text-danger':'fa fa-heart'"></i><span> {{ hl.hitcount }}</span> 
+              </li>
+              <li class="btn btn-default" >
+                <i  v-bind:class="DataCon(hl.viewcount)>=1?'fa fa-eye text-primary':'fa fa-eye'" class=""></i> <span>{{ hl.viewcount }}</span>
+              </li>
+              </span>
+              <li value="2" class="btn btn-default">
+               <i   v-bind:class="commentFilter(p.id).length>=1? 'fa fa-comment text-success':'fa fa-comment'" ></i><span> {{commentFilter(p.id).length}}</span>
+              </li>
+              <!-- <li class="btn btn-default" v-on:click="likeClick(p.bloglikes, p.title, p.slug, p.content, p.author)">
+                <i class="fa fa-heart "></i> {{ hitLikeFilter(p.id) }}
+              </li> --> 
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+   <div class="sidebar"></div>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+export default {
+  name: "home",
+  data() {
+    return {
+      items: [], // store blog posts in array form
+      comments:[], //store comments
+      hitlike:[], //store view and likes
+    };
+  },
+    
+  mounted() {
+    this.fetchItems();
+    this.fetchCommentCount(); 
+    this.fetchHitLike();
+  },
+  methods: {
+    // Getting the blog post from api
+    fetchItems() {
+      axios.get("http://localhost:8000/api/blog/").then(response => {
+        this.items = response.data;
+      });
+    },
+   //Getting the comments counts from Api
+    fetchCommentCount(){
+      axios.get("http://localhost:8000/api/comment/")
+      .then(response => {
+        this.comments = response.data;
+      });
+    },
+    // Get likes and views form the Api using axios 
+    fetchHitLike(){
+      axios.get("http://localhost:8000/api/hitlike/")
+      .then(response => {
+        this.hitlike = response.data;
+      });
+    },
+    ViewClick: function(id,views) {
+      const likecount = views + 1; 
+      axios.put("http://localhost:8000/api/hitlike/"+ id +"/",{viewcount: likecount,post:id})
+      .then(this.$router.push({ path: `/blog/${id}` }))
+      .catch((response) => console.log('error', response));
+    }, 
+   //filter comments by it's post 
+    commentFilter: function(id) {
+      return this.comments.filter(el => {
+        return el.post === id;
+      })
+    },
+   //filter the  likes and views by it's post
+    hitLikeFilter:function(hitlikeData){
+      return this.hitlike.filter(el => {
+        return el.post === hitlikeData;
+     })
+    },
+    DataCon:(data)=>{
+      return parseInt(data);
+    },
+  
+  }
+};
+</script>
+<style lang="scss">
+.col-md-6 {
+  h4 {
+    color: indigo;
+  }
+  .btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+  .btn {
+    color: grey;
+    span {
+      color: grey;
+    }
+    .card {
+      .card-footer {
+        ul {
+          list-style: none;
+        }
+        li{
+          span{
+            color: var(--dark)
+          }
+        }
+        span{
+          li:nth-of-type(2){
+          order: 3
+        }
+        
+        }
+      }
+    }
+  }
+}
+</style>
+
+```
+Next open the `src/App.vue` and modify the `style` tag code by adding colors to it.
+```html
+...
+<style lang="scss">
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'assets/fontawesome/css/all.min.css';
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+.bg-color-1 {background-color: #581845;}.bg-color-2 {background-color: #900C3F;}.bg-color-3 {background-color: #C70039;}.bg-color-4 {background-color: #FF5733;}.bg-color-5 {background-color: #FFC300;}.bg-color-6 {background-color:  #33691e ;}
+.bg-color-7 {background-color: #3498db;}.bg-color-8 {background-color: #DAF7A6;}.bg-color-9 {background-color: #8e44ad;}.bg-color-10 {background-color: #34495e;}.bg-color-11 {background-color: #d35400;}.bg-color-12 {background-color: #2e86c1;}.bg-color-13{background-color:#e91e63}
+.color-1 {color: #581845 !important;}.color-2 {color: #900C3F !important;}.color-3 {color: #C70039 !important;}.color-4 {color: #FF5733 !important;}.color-5 {color: #FFC300 !important;}.color-6 {color:  #33691e !important;} 
+</style>
+```
+Here those `.bg-color` will be used in Avatar of Comments and Reply and there is font.
+
+Next open the `views/page/page.vue` and update the code as below:
+```html
+<template>
+  <div class="blog">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb container">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Blog</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ blogData.title }}
+        </li>
+      </ol>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 pt-1 pb-2">
+          <h1>{{ blogData.title }}</h1>
+        </div>
+        <div class="col-md-12">
+          <p class="m-2">{{ blogData.content }}</p>
+          <div class="mt-5 mb-3 ml-3">
+          <span class="text-md-right btn btn-default" v-on:click="LikeClick(blogData.id, likeValue() )"><i class="fa fa-heart"></i></span>
+          </div>
+         <section class="link-holder m-1 rounded">
+           <ul class="clear-fix"> 
+             <li>
+               <h4 role="presentation">created</h4>
+               <div class="topic-map-post created-at">
+                 <a >
+                   <b class="btn-sm rounded-circle m-sm-1 bg-warning text-white font-weight-light">C</b>
+                 </a>
+                   <span v-bind:title="blogData.created_on">{{formatDate(blogData.created_on )}}</span>
+              </div>
+             </li>
+             <li>
+               <a>
+                  <h4 role="presentation">last {{commentLastDate() > replyLastDate()?'comment':replyLastDate()=== undefined?'comment':'reply'}}</h4>
+                  <div class="topic-map-post last-reply">
+                    <a class="trigger-user-card " data-user-card="ToddBroeker"> <b class="btn-sm rounded-circle m-sm-1 bg-info text-white font-weight-light">R</b></a>
+                  <span >{{commentLastDate() > replyLastDate()?formatDate(commentLastDate()):replyLastDate()=== undefined?formatDate(commentLastDate()):commentLastDate()=== undefined?'No reply':formatDate(replyLastDate())}}</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <span class="number">{{blogComment.length}}</span>
+                <h4 role="presentation">comments </h4>
+              </li>
+              <li>
+                <span class="number">{{blogReply.length}}</span>
+                <h4 role="presentation">replies</h4>
+              </li>
+              <span v-for="count in blogHitView" :key="count.id">
+              <li class="secondary">
+                <span class="number" title="3477" >{{count.viewcount}}</span>
+                <h4 role="presentation">views</h4>
+              </li>
+              <li class="secondary">
+                <span class="number" title="3477" >{{count.hitcount}}</span>
+                <h4 role="presentation">likes</h4>
+              </li>
+              </span>
+           </ul>
+         </section>
+        </div>
+        <div class="col-md-12">
+          <div class="comment">
+            <!--Comments-->
+            <div class="card card-comments mb-3 wow fadeIn">
+              <div class="card-header font-weight-bold">
+                {{ blogComment.length }} comments
+              </div>
+              <div class="card-body">
+                <div
+                  class="media d-block d-md-flex mt-4"
+                  v-for="(c, Index) in blogComment"
+                  :key="Index"
+                >
+                  <div :class="'avatar ' + AvatarColorChange(c.author.substring(0,1))"><h2 class="text-center pt-1 mt-md-1 mt-sm-2 mt-lg-1">{{c.author.substring(0,1).toUpperCase()}}</h2></div>
+                  <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                    <h5 class="font-weight-bold"> {{ c.author }} <span class="relative-date float-right font-weight-lighter">{{formatDate(c.created_on)}}</span></h5>
+                    <p>{{ c.body }} </p>
+                    
+                    
+                    <div class="text-right pt-1">
+                      <a id="reply" v-on:click="showModal(Index)">Replay</a>
+                    </div>
+                    <hr />
+                    <div class="media d-block d-md-flex mt-3" v-for="reply in replyFilter(c.id)" :key="reply.id">
+                    <div :class="'avatar ' + AvatarColorChange(reply.author.substring(0,1))"><h2 class="text-center pt-1 mt-md-1 mt-sm-2 mt-lg-1">{{reply.author.substring(0,1).toUpperCase()}}</h2></div>
+                    <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                        <h5 class="mt-0 font-weight-bold">{{reply.author}} <span class="relative-date float-right font-weight-lighter">{{formatDate(reply.created_on)}}</span></h5>
+                        <p>{{reply.body}}</p>
+                    
+                    <hr />
+                    </div>
+                   </div>
+                   <ReplyModal :ref="'modal_' + Index">
+                     <form @submit.prevent="replyPost(c.id)">
+                      <label for="user">Your Name</label>
+                      <input type="text" class="form-control" name="user" v-model="replyUser" required />
+                      <input type="hidden" :value="c.id" :id="'commentid'+Index" :ref="'commentId'+Index" />
+                      <label for="quickReplyFormComment">Your comment</label>
+                      <textarea
+                        class="form-control"
+                        id="quickReplyFormComment"
+                        rows="5" v-model="replyBody"
+                        required
+                      ></textarea>
+                      <div class="mt-2 mb-2 float-right">
+                        <button class="btn btn-info btn-sm" type="submit">
+                          Post
+                        </button>
+                      </div>
+                     </form>
+                     </ReplyModal>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/.Comments-->
+
+            <!--Reply-->
+            <div class="card mb-3 wow fadeIn">
+              <div class="card-header font-weight-bold">Leave a Comment</div>
+              <div class="card-body">
+                <!-- Default form reply -->
+                <form @submit="commentPost">
+                  <!-- Name -->
+                  <label for="replyFormName">Your name</label>
+                  <input type="text"  id="replyFormName" v-model="commentAuthor" class="form-control" required />
+                  <!-- Comment -->
+                  <div class="form-group">
+                    <label for="replyFormComment">Your comment</label>
+                    <textarea class="form-control" id="replyFormComment" rows="5" required  v-model="commentBody"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-info btn-md mr-2" >Post</button>
+                    <button class="btn btn-warning">Cancel</button>
+                  </div>
+                </form>
+                <!-- Default form reply -->
+              </div>
+            </div>
+            <!--/.Reply-->
+          </div>
+        </div>
+      </div>
+    </div>
+</template>
+<script>
+import axios from 'axios';
+import moment from 'moment';
+import ReplyModal from './replyModal';
+export default {
+  
+  name: "post",
+  components:{
+    ReplyModal
+  },
+  data() {
+    return {
+      blogData: {},
+      blogComment:[],
+      blogReply:[],
+      blogHitView:{},
+      commentBody:'',
+      commentAuthor:'',
+      replyUser:'',
+      replyBody:'',
+    };
+  },
+  mounted() {
+    this.fetchBlogItems();
+    this.fetchComment();
+    this.formatDate();
+    this.fetchHitLike();
+    this.fetchReply();
+    
+  },
+  computed: {
+   
+  },
+  methods: {
+    fetchBlogItems() {
+      axios
+        .get("http://localhost:8000/api/blog/" + this.$route.params.id + "/")
+        .then(response => {
+          this.blogData = response.data;
+        });
+    },
+    fetchComment() {
+      axios
+        .get("http://localhost:8000/api/comment/?post=" + this.$route.params.id)
+        .then(response => {
+          this.blogComment = response.data;
+        });
+    },
+    fetchHitLike(){
+       axios
+        .get("http://localhost:8000/api/hitlike/?post=" + this.$route.params.id)
+        .then(response => {
+          this.blogHitView = response.data;
+        });
+    },
+    fetchReply(){
+       axios
+        .get("http://localhost:8000/api/replycomment/?post="+this.$route.params.id)
+        .then(response => {
+          this.blogReply = response.data;
+        });
+    },
+    LikeClick: function(id,likes) {
+      const likecount = parseInt(likes) + 1; 
+      axios.put("http://localhost:8000/api/hitlike/"+ id +"/",{hitcount: likecount,post:id})
+      .then( this.fetchHitLike())
+      .catch((response) => console.log('error', response));
+    }, 
+    // Comment Post //
+    commentPost:function(e){
+      e.preventDefault();
+        const item ={author:this.commentAuthor, body:this.commentBody, post:this.$route.params.id};
+        axios.post("http://localhost:8000/api/comment/",item).then(location.reload()).catch(res => console.log('error', res))
+      
+    },   
+    // Reply Filter //
+    replyFilter: function(id) {
+      return this.blogReply.filter(el => {
+        return el.comment === id;
+      })
+    },
+    //Reply Post
+    replyPost:function(e){
+       const item = {author:this.replyUser, body:this.replyBody, comment:e, post:this.$route.params.id}
+       axios.post("http://localhost:8000/api/replycomment/",item).then(location.reload()).catch(res => console.log('error', res))
+    },
+     showModal(index) {
+      let modal_id = "modal_" + index;
+      this.$refs[modal_id][0].show();
+    },
+    // Formate Date //
+    formatDate(value) {
+      if (value) {
+        return moment(String(value)).format('MMM DD')
+      }
+    },
+    // LastDate Post
+    commentLastDate() {
+      var c = this.blogComment.length - 1;
+      if(this.blogComment[c])
+        return  this.blogComment[c].created_on;
+    },
+    replyLastDate(){
+      var r = this.blogReply.length -1;
+      if(this.blogReply[r])
+        return this.blogReply[r].created_on;
+    },
+    likeValue(){
+      var l =this.blogHitView.length -1
+      if(this.blogHitView[l])
+        return this.blogHitView[l].hitcount
+    },
+    //Avatar BG Colors
+    AvatarColorChange(textExtract){
+      const text = textExtract.toUpperCase();
+      if(text ==='A'|text === 'B'){ return 'bg-color-1'; }
+      else if(text === 'C' | text === 'D'){ return 'bg-color-2'; }
+      else if(text === 'E' | text === 'F'){ return 'bg-color-3'; }
+      else if(text === 'G' | text === 'H'){ return 'bg-color-4'; }
+      else if(text === 'I' | text === 'J'){ return 'bg-color-5'; }
+      else if(text === 'K' | text === 'L'){ return 'bg-color-6'; }
+      else if(text === 'M' | text === 'N'){ return 'bg-color-7'; }
+      else if(text === 'O' | text === 'P'){ return 'bg-color-8'; }
+      else if(text === 'Q' | text === 'R'){ return 'bg-color-9'; }
+      else if(text === 'S' | text === 'T'){ return 'bg-color-10'; }
+      else if(text === 'U' | text === 'V'){ return 'bg-color-11'; }
+      else if(text === 'W' | text === 'X'){ return 'bg-color-12'; }
+      else if(text === 'Y' | text === 'Z'){ return 'bg-color-13'; }
+      
+    }
+  }
+};
+
+</script>
+<style lang="scss" >
+.blog {
+ @import '../../assets/scss/page';
+}
+</style>
+
+```
+Here the scss file is store in `assets/scss/` folder, there is a reply component is add to create it do as follow:
+```bash
+
+ $ touch src/views/page/replyModel.vue
+ 
+ ```
+ Open the `replyModel.vue` and add code as below:
+ ```html
+ <template>
+    <div class="form-group mt-4 fadeIn mb-3" v-if="visible">
+     <button title="Close" class="btn btn-danger btn-sm float-right mb-1" @click='close()'>X</button>
+          <slot></slot>
+    </div>
+</template>
+
+<script>
+export default {
+    name:"ReplyModal",
+
+    data(){
+        return {
+            visible : false
+        }
+    },
+    methods : {
+        show(){
+            this.visible = true
+        },
+        close(){
+            this.visible = false
+        }
+    }
+}
+</script>
+
+ ```
+This is an sample of reusable components, when reply text is clicked it will add this modal to our comment section. Here is the `page.scss` file code (create it on `/assets/scss` folder or `views/page/` any where you like but add the location correctly or else it through a runtime error.) 
+```css
+
+
+
+    nav {
+      background-color: #5fcbdc;
+      .breadcrumb {
+        background-color: transparent;
+      }
+      a {
+        color: #35495e;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+      h1 {
+        padding-bottom: 1rem;
+      }
+      .active {
+        color: white;
+      }
+     }
+    section.link-holder{
+      background-color: #f5f3f3;
+      border:1px solid #e9e9e9;
+      ul{
+        list-style: none;
+        li{
+          float: left;
+          padding: 7px 10px;
+          h4{
+            margin: 1px 0 2px 0;
+            color: #919191;
+            font-weight: normal;
+            font-size: .8706em;
+            line-height: 1;
+           }
+           .number {
+            font-size: 1.3195em;
+            line-height: 1.2;
+          }
+           .secondary {
+            text-align: center;
+          }
+        }
+        li:nth-child(3) {
+          text-align: center;
+       }
+        }
+      }
+      .link-holder:first-of-type {
+        display: flex;
+    }
+    
+    .back {
+      background-color: #42b883;
+      color: white;
+      margin-top: 5rem;
+      text-decoration: none;
+      padding: 10px 15px;
+      border: 1px solid currentColor;
+      border-radius: 0.5rem;
+      display: inline-block;
+      transition: all 0.3s ease;
+      &:hover {
+        background-color: transparent;
+        color: #42b883;
+      }
+    }
+    /deep/ {
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 0.2rem;
+        color: #42b883;
+      }
+      h4 {
+        margin-bottom: 3rem;
+        color: #35495e;
+      }
+      p {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: inherit;
+      }
+      pre {
+        width: 100%;
+        background-color: #35495e;
+        color: white;
+        border-radius: 0.3rem;
+        padding: 1rem;
+      }
+      img {
+        max-width: 100%;
+      }
+    }
+    .comment {
+      .avatar{
+        width:55px;
+        height: 55px;
+        border-radius: 50%;
+        h2{
+          color:white;
+        }
+      }
+      #reply {
+        color: #42b883;
+        cursor: pointer;
+      }
+      #reply:hover {
+        text-decoration: none;
+        color: #5fcbdc;
+      }
+      .display-none {
+        display: none;
+      }
+      a{
+        font-size:.75rem
+      }
+      span.relative-date {
+        white-space: nowrap;
+        font-size: medium;
+        color: #919191;
+        
+    }
+   }
+```
+`Note: Here ``/deep/`` on code doesn't support on chrome, ignore the warnings`
+Save the file. Run the serve 
+```bash
+$ npm run serve
+```
+`Note if django server is not running run that too..`
+
