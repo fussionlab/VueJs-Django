@@ -330,7 +330,7 @@ First we can create Navigation just comment as below:
 $ touch src/components/Navigation.vue
 ```
 Now open the src/components/Navigation.vue write down as below:
-```js
+```html
 <template>
     <div>
   <b-navbar toggleable="lg" type="dark" variant="info">
