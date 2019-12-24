@@ -292,3 +292,33 @@ we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
 ```bash
  $ npm i bootstrap bootstrap-vue sass-loader node-sass --save
  ```
+ Here i used both boostrap and bootstrap-vue, you can make your choice to use normal bootstrap or boostrap-vue. For detail reference [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) here bootstrap requires a peer of jquery@1.9.1-3 so install ```bash $ npm i jquery ``` and [Bootstrap-Vue](https://bootstrap-vue.js.org/docs/components/). We are going to use the SCSS or SASS so that sass-loader and node-sass complie scss for render.
+ ### Setting App
+ Open the src/App.vue you can see code as below:
+ ```html
+ <template>
+  <div id="app">
+     <img alt="Vue logo" src="./assets/logo.png">
+      <HelloWorld msg="Welcome to Your Vue.js App"/> 
+  </div>
+</template>
+<script>
+ import HelloWorld from  './components/HelloWorld';
+  export default {
+    name: 'app',
+    components: {
+      HelloWorld
+    }
+  }
+
+ </script>
+<style scoped>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+</style>
+
+ ```
