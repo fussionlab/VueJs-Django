@@ -1513,3 +1513,4 @@ $ npm run serve
 ```
 `Note if django server is not running run that too..`
 
+#### In next tutorial we can see how to add admin page and control the post from admin page.
