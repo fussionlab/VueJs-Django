@@ -742,4 +742,4 @@ class Hitslike(models.Model):
       viewcount = models.IntegerField(default=0)
       post = models.ForeignKey('Post', on_delete=models.CASCADE)
 ```
-In the above `Comment` Model `post` is the foreignkey which gets the store postid, Here we no need to specify `id` because `Django` create a deafult feild called `id`. Like that All three model have a relation with `Post` model. 
+In the above `Comment` Model `post` is the foreignkey which gets the store postid, Here we no need to specify `id` because `Django` create a default feild called `id`. Like that All three model have a relation with `Post` model. 
