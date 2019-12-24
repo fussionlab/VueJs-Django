@@ -322,7 +322,7 @@ we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
 </style>
 
  ```
- Here ```html <template> .... </template>``` holds all the markup and components, <HelloWorld /> is a component like this we can create as many as reuseable components. ```html <script> ... </script> ``` holds javascripts like as ```html <style> ... </style>``` holds all inline stylesheat codes..
+ Here ``` <template> .... </template>``` holds all the markup and components, <HelloWorld /> is a component like this we can create as many as reuseable components. ```<script> ... </script> ``` holds javascripts like as ``` <style> ... </style>``` holds all inline stylesheat codes..
 Next We are up to create Navigation bar component or Header and Footer
 
 First we can create Navigation just comment as below:
