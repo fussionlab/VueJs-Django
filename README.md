@@ -553,7 +553,7 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Type: application/json
 Vary: Accept
 ```
-```js
+```json
 [
     {
         "id": 1,
