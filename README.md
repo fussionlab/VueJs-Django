@@ -697,4 +697,49 @@ Here we in our app `v-for` is used to render all data(all the post) from the Api
 
 Now we have got all post form `Django` to our `Vue` App.
 
-In Next section we can see how to get Total comments, Total View and Total likes. We have to add three more model to our `Api`
+In Next section we can see how to get Total comments, Total View, Total likes and single Blog post view. We have to add three more model to our `Api`. Stop the both running servers by using `Ctrl+c`
+
+Next go to the `Django` honeybee project. Open the `blog/model.py` and add this models to handel comments, reply, like, and views. 
+
+```py
+	from django.db import models
+from django.contrib.auth.models import User
+
+
+STATUS = (
+    (0,"Draft"),
+    (1,"Publish")
+)
+
+class Post(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    author = models.ForeignKey(User, on_delete= models.CASCADE,related_name='blog_posts')
+    updated_on = models.DateTimeField(auto_now= True)
+    content = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    status = models.IntegerField(choices=STATUS, default=0)
+    
+    class Meta:
+        ordering = ['id']
+
+    def __str__(self):
+        return self.title
+#add below  models Comment, Reply and Hits
+class Comment(models.Model):
+    author = models.CharField(max_length=60)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+class ReplyComment(models.Model):
+    author = models.CharField(max_length=60)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
+class Hitslike(models.Model):
+      hitcount = models.IntegerField(default=0)
+      viewcount = models.IntegerField(default=0)
+      post = models.ForeignKey('Post', on_delete=models.CASCADE)
+```
+In the above `Comment` Model `post` is the foreignkey which gets the store postid, Here we no need to specify `id` because `Django` create a deafult feild called `id`. Like that All three model have a relation with `Post` model. 
