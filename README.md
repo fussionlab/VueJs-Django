@@ -387,3 +387,63 @@ export default {
 </script>
 ```
 Here we used a bootstrap-vue components import all needed components from 'boostrap-vue' for the reference [https://bootstrap-vue.js.org/docs/components/navbar](https://bootstrap-vue.js.org/docs/components/navbar). you can use any navbar as you like.
+
+Next create a footer of your choice here is my footer:
+
+```html 
+<template>
+    <footer>
+        <p><img alt="Vue logo" src="../assets/logo.png"> Hornbill Blog &copy; 2019</p>
+    </footer>
+</template>
+<script>
+export default {
+    name:'AppFooter'
+}
+</script>
+<style lang="scss">
+footer{
+    padding: 3rem;
+    p{
+        text-align: center;
+        img{
+            width:2rem;
+        }
+    }
+}
+</style>
+```
+Here we used a scss in our style as above.
+
+Open the ```src/App.vue`` and add the components as below:
+```html
+ <template>
+  <div id="app">
+      <Navi />
+         <img alt="Vue logo" src="./assets/logo.png">
+      <AppFooter /> 
+  </div>
+</template>
+<script>
+ import Navi from  './components/Navigation';
+ import AppFooter from  './components/footer';
+  export default {
+    name: 'app',
+    components: {
+      Navi,
+      AppFooter,
+    }
+  }
+
+ </script>
+<style scoped>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+</style>
+
+ ```
+ Next we make a test run [http://localhost:8080](http://localhost:8080)
