@@ -389,7 +389,10 @@ export default {
 Here we used a bootstrap-vue components import all needed components from 'boostrap-vue' for the reference [https://bootstrap-vue.js.org/docs/components/navbar](https://bootstrap-vue.js.org/docs/components/navbar). you can use any navbar as you like.
 
 Next create a footer of your choice here is my footer:
-
+```bash 
+$ touch src/components/footer.vue
+```
+Then open and write code as below:
 ```html 
 <template>
     <footer>
@@ -415,7 +418,7 @@ footer{
 ```
 Here we used a scss in our style as above.
 
-Open the ```src/App.vue`` and add the components as below:
+Open the ```src/App.vue``` and add the components as below:
 ```html
  <template>
   <div id="app">
