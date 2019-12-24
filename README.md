@@ -322,3 +322,68 @@ we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
 </style>
 
  ```
+ Here ```html <template> .... </template>``` holds all the markup and components, <HelloWorld /> is a component like this we can create as many as reuseable components. ```html <script> ... </script> ``` holds javascripts like as ```html <style> ... </style>``` holds all inline stylesheat codes..
+Next We are up to create Navigation bar component or Header and Footer
+
+First we can create Navigation just comment as below:
+```bash
+$ touch src/components/Navigation.vue
+```
+Now open the src/components/Navigation.vue write down as below:
+```js
+<template>
+    <div>
+  <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar-brand href="#">Hornbill</b-navbar-brand>
+
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item href="/">Home</b-nav-item>
+      </b-navbar-nav>
+      <b-navbar-nav class="p-2">
+       <b-nav-item href="/blog">Blog</b-nav-item>
+       <b-nav-item href="/about">About</b-nav-item>
+     </b-navbar-nav>
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto">
+        <b-nav-form>
+          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+        </b-nav-form>
+
+        <b-nav-item-dropdown right>
+          <!-- Using 'button-content' slot -->
+          <template v-slot:button-content>
+            <em>User</em>
+          </template>
+          <b-dropdown-item href="#">Profile</b-dropdown-item>
+          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
+</div>
+</template>
+<script>
+import {BNavbarNav, BNavItem, BNavbar, BNavForm,BFormInput, BNavItemDropdown,BDropdownItem, BNavbarBrand, BCollapse, BNavbarToggle, BButton} from 'bootstrap-vue';
+export default {
+    name:'Navi',
+    components:{
+        'b-navbar-brand':BNavbarBrand,
+        'b-dropdown-item':BDropdownItem,
+        'b-navbar':BNavbar,
+        'b-nav-item':BNavItem,
+        'b-collapse':BCollapse,
+        'b-nav-item-dropdown':BNavItemDropdown,
+        'b-nav-form':BNavForm,
+        'b-navbar-toggle':BNavbarToggle,
+        'b-button':BButton,
+        'b-navbar-nav':BNavbarNav,
+        'b-form-input':BFormInput,
+    }
+}
+</script>
+```
+Here we used a bootstrap-vue components import all needed components from 'boostrap-vue' for the reference [https://bootstrap-vue.js.org/docs/components/navbar](https://bootstrap-vue.js.org/docs/components/navbar). you can use any navbar as you like.
