@@ -539,4 +539,30 @@ The run [http://localhost:8080](http://localhost:8080) after command ,
 ```bash 
   $ npm run serve
  ```
- 
+Then [http://localhost:8080/about](http://localhost:8080/about) to test routing, if you see the **About Page**. 
+
+Next, proceding with connect to the `API` Before check you have add any blog post on `Django` or Press `Ctrl+c` and move to `honeybee` folder command
+```bash
+ $ cd honeybee
+ $ python manage.py runserver
+```
+Then run [http://localhost:8000/api/blog](http://localhost:8080/api/blog/) create the blog post after yo can see something like this
+```
+HTTP 200 OK
+Allow: GET, POST, HEAD, OPTIONS
+Content-Type: application/json
+Vary: Accept
+```
+```Json
+[
+    {
+        "id": 1,
+        "title": "Hello, world!",
+        "slug": "hello-world",
+        "author": 1,
+        "content": "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.\r\n\r\nIt uses utility classes for typography and spacing to space content out within the larger container.",
+        "status": 1,
+        "created_on": "2019-12-16T09:14:15.042351Z"
+    }
+]
+````
