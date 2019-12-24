@@ -566,3 +566,135 @@ Vary: Accept
     }
 ]
 ````
+Create posts as per your wish. Let this server run. In new terminal or command prompt type:
+```bash
+$ npm i axios
+```
+Let it install and on time being we can add bootstrap to our style in `src/App.vue`
+```html
+<style lang="scss">
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+</style>
+``` 
+This show how to use normal bootstrap on our code. Now check `axios` is installed.
+
+Then open `src/view/Home.vue` and change the code as below:
+```html
+<template>
+  <div class="home container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Blog Posts</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 p-1" v-for="(p, index) in items" :key="index">
+        <div class="card">
+          <img src="../assets/1.jpg" alt="" class="w-100" />
+          <div class="card-body">
+            <h4 class="card-title">{{ p.title }}</h4>
+            <p class="card-text" v-if="p.content.length>100">{{ p.content.substring(0, 100)+ '...' }}</p>
+            <a class="btn btn-primary text-light" >Read more</a>
+          </div>
+          <div class="card-footer">
+            <ul>
+              <li class="btn btn-default">
+                 <i class="fa fa-heart text-danger"></i>0
+              </li>
+              <li class="btn btn-default" >
+                <i class="fa fa-eye text-primary">0
+              </li>
+              <li value="2" class="btn btn-default">
+               <i class="fa fa-comment text-success" ></i>0
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+export default {
+  name: "home",
+  data() {
+    return {  
+      items: [],
+    };
+  },
+  
+  mounted() {
+    this.fetchItems();
+    
+  },
+  methods: {
+    fetchItems() {
+      axios.get("http://localhost:8000/api/blog/").then(response => {
+        this.items = response.data;
+      });
+    },
+       
+  }
+};
+</script>
+<style lang="scss">
+.col-md-6 {
+  h4 {
+    color: indigo;
+  }
+  .btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+  .btn {
+    color: grey;
+    span {
+      color: grey;
+    }
+    .card {
+      .card-footer {
+        ul {
+          list-style: none;
+        }
+        li{
+          span{
+            color: var(--dark)
+          }
+        }
+        
+        }
+      }
+    }
+  }
+}
+</style>
+```
+Here `axios` fetch data from the `API` and make sure you a image on `assets/` folder here i got `assets/1.jpg`. To render `data(){}` function on `<template>` we use `{{some}}` here `some` is a sample data variable return forn *Data function* 
+Example:
+```html
+<template>
+	<h1>{{some}}</h1>
+</template>
+<script>
+	export default{
+	data(){
+	return{
+	some:'Sample Data',
+	}
+	}
+	}
+</script>
+```
+Above code is for example not for our code.
+
+Here we in our app `v-for` is used to render all data(all the post) from the Api. `<div class="col-md-6 p-1" v-for="(p, index) in items" :key="index"> ...</div>` handel the loop.
+
+`v-if` is used here to find the content is more then 100 letters display only 100 letters we going to use `substring()` function, `<p class="card-text" v-if="p.content.length>100">{{ p.content.substring(0, 100)+ '...' }}</p>`. `<h4 class="card-title">{{ p.title }}</h4>` in this `{{p.title}}` holds the title.
+
+Now we have got all post form `Django` to our `Vue` App.
+
+In Next section we can see how to get Total comments, Total View and Total likes. We have to add three more model to our `Api`
