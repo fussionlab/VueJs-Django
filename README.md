@@ -128,7 +128,7 @@ for more details [Link](https://docs.djangoproject.com/en/3.0/intro/tutorial02/)
 
 We can test to see that CRUD operations work on the Blog model we created using the admin interface that Django provides out of the box, but first, we will do a little configuration.
 
-Open the blog/admin.py file and update it accordingly:
+Open the ```blog/admin.py``` file and update it accordingly:
 ```py 
 from django.contrib import admin
 
@@ -200,7 +200,7 @@ Django-cors-headers is a python library that will help in preventing the errors 
 
 ### Creating serializers for the blog model
 
-We need serializers to convert model instances to JSON so that the frontend can work with the received data easily. We will create a blog/serializers.py file:
+We need serializers to convert model instances to JSON so that the frontend can work with the received data easily. We will create a ```blog/serializers.py``` file:
 ```zsh
 	$ touch blog/serializers.py
 ```
@@ -218,7 +218,7 @@ Open the serializers.py file and update it with the following code.
 In the code snippet above, we specified the model to work with and the fields we want to be converted to JSON.
 ### Creating the View
 
-We will create a PostView class in the blog/views.py file, so update it with the following code:
+We will create a PostView class in the ```blog/views.py``` file, so update it with the following code:
 ```py
     # blog/views.py
 	from django.shortcuts import render
@@ -234,7 +234,7 @@ We will create a PostView class in the blog/views.py file, so update it with the
 ```
 The *viewsets* base class provides the implementation for CRUD operations by default, what we had to do was specify the serializer class and the query set.
 
-Head over to the honeybee/urls.py file and completely replace it with the code below. This code specifies the URL path for the API:
+Head over to the ```honeybee/urls.py``` file and completely replace it with the code below. This code specifies the URL path for the API:
 ```py
  # honeybee/urls.py
 
@@ -263,8 +263,8 @@ Let’s restart the server and visit this address — [http://localhost:8000/api
 $ python manage.py runserver
 ```
 
-We can perform ADD, DELETE and UPDATE operations on specific blog post using their id primary keys. To do this, we will visit an address with this structure /api/blog/id. Let’s try with this address — http://localhost:8000/blog/1
-Create a first post in /api/blog add the slug field will be if your **title** is like ***My first Post*** then slug field should be like *my-first-post*.
+We can perform ADD, DELETE and UPDATE operations on specific blog post using their id primary keys. To do this, we will visit an address with this structure ```/api/blog/id```. Let’s try with this address — http://localhost:8000/blog/1
+Create a first post in ```/api/blog``` add the slug field will be if your **title** is like ***My first Post*** then slug field should be like *my-first-post*.
 
 ## Setting up the frontend
 
@@ -294,7 +294,7 @@ we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
  ```
  Here i used both boostrap and bootstrap-vue, you can make your choice to use normal bootstrap or boostrap-vue. For detail reference [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) here bootstrap requires a peer of jquery@1.9.1-3 so install ```bash $ npm i jquery ``` and [Bootstrap-Vue](https://bootstrap-vue.js.org/docs/components/). We are going to use the SCSS or SASS so that sass-loader and node-sass complie scss for render.
  ### Setting App
- Open the src/App.vue you can see code as below:
+ Open the ```src/App.vue``` you can see code as below:
  ```html
  <template>
   <div id="app">
@@ -325,11 +325,14 @@ we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
  Here ``` <template> .... </template>``` holds all the markup and components, <HelloWorld /> is a component like this we can create as many as reuseable components. ```<script> ... </script> ``` holds javascripts like as ``` <style> ... </style>``` holds all inline stylesheat codes..
 Next We are up to create Navigation bar component or Header and Footer
 
-First we can create Navigation just comment as below:
+First we can create Navigation just commend as below:
+
 ```bash
 $ touch src/components/Navigation.vue
 ```
-Now open the src/components/Navigation.vue write down as below:
+
+Now open the ```src/components/Navigation.vue``` write down as below:
+
 ```html
 <template>
     <div>
@@ -389,10 +392,13 @@ export default {
 Here we used a bootstrap-vue components import all needed components from 'boostrap-vue' for the reference [https://bootstrap-vue.js.org/docs/components/navbar](https://bootstrap-vue.js.org/docs/components/navbar). you can use any navbar as you like.
 
 Next create a footer of your choice here is my footer:
+
 ```bash 
 $ touch src/components/footer.vue
 ```
-Then open and write code as below:
+
+Then open ```src/components/footer.vue``` and write code as below:
+
 ```html 
 <template>
     <footer>
@@ -449,4 +455,88 @@ Open the ```src/App.vue``` and add the components as below:
 </style>
 
  ```
- Next we make a test run [http://localhost:8080](http://localhost:8080)
+ Next we make a test run [http://localhost:8080](http://localhost:8080) :
+ 
+ As we are creating a Blog, so that it needed to navigated to respective pages. We now use ```router``` to change single page app to multi page. Press ```Ctrl + c``` then command as below
+ ```bash
+ $ npm i vue-router
+ 
+ ```
+ after install create a folder in `src/router` then
+ 
+ ```bash
+ $ touch src/router/index.js
+ ````
+ 
+ Open the ```src/router/index.js``` file and write down the code as below:
+ ```js
+import Vue from 'vue'
+import VueRouter from '../../node_modules/vue-router'
+import Home from '../views/Home'
+import Page from '../views/page/Page'
+
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: Home
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/About')
+  },
+  {
+     path: '/blog/:id', component: Page 
+    
+  },
+  
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+export default router
+
+ ```
+ On above you can see a components like `Home`, `About` and `Page` those are the components we going to create further. Create a folder in `src/views` manually or by command `$ mkdir views`. Then create files like `Home` and `About` just now.
+ ```bash
+ 	$ touch src/views/Home.vue
+	$ touch src/views/About.vue
+	$ touch src/views/page/Page.vue
+```
+Open Home and add one `<h1></h1>` tag in `template`
+```html
+<template>
+	<h1>Home Page</h1>
+<template>
+<script>
+	export default{
+	name:'Home'
+	}
+</script>
+```
+Like create About and page for a test routing, add ```<h1>About Page</h1>``` on `About.vue` and ```<h1>Page</h1>``` on `page.vue`
+
+Open the `App.Vue` and add following component 
+```html
+<template>
+	<Navi />
+	 <router-view/>
+	<AppFooter />
+</template>
+```
+The run [http://localhost:8080](http://localhost:8080) after command ,
+```bash 
+  $ npm run serve
+ ```
+ 
