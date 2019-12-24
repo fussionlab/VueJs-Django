@@ -702,7 +702,7 @@ In Next section we can see how to get Total comments, Total View, Total likes an
 Next go to the `Django` honeybee project. Open the `blog/model.py` and add this models to handel comments, reply, like, and views. 
 
 ```py
-	from django.db import models
+from django.db import models
 from django.contrib.auth.models import User
 
 
