@@ -1,5 +1,5 @@
 
-#<%= octicon "briefcase" %> Build a Simple Blog application Using Django and VUE 
+# Build a Simple Blog application Using Django and VUE 
     
     Vue CLI and Django Reset framework
 
