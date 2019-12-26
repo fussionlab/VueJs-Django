@@ -6,7 +6,7 @@
  ## Table of Contents
 
     #Prerequisites
-    #Setting up the Backend
+    #Setting up the Backend(Honeybee)
     #Setting up the APIs
     #Setting up the frontend
     #Testing the application 
@@ -43,7 +43,7 @@ Let’s install Django using Pipenv then create a new project called honeybee:
   $ pipenv install django
   $ django-admin startproject honeybee
 ```
-Next, we will navigate into the newly created backend folder and start a new application called todo. We will also run migrations and start up the server:
+Next, we will navigate into the newly created backend folder and start a new application called blog. We will also run migrations and start up the server:
 ```zsh
     $ cd hornbill
     $ python manage.py startapp blog
