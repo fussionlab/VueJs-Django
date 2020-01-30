@@ -36,7 +36,7 @@ Now we will install Pipenv using pip and activate a new virtual environment:
  	$ pip install pipenv
  	$ pipenv shell
 ```
-```Note: You should skip the first command if you already have Pipenv installed. If your using windows just add ```py py ``` instead of python```
+```Note: You should skip the first command if you already have Pipenv installed. If your using windows just add ``` py ``` instead of python```
 
 Let’s install Django using Pipenv then create a new project called honeybee:
 ```zsh
