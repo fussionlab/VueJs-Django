@@ -23,7 +23,7 @@
            <ul class="clear-fix"> 
              <li>
                <h4 role="presentation">created</h4>
-               <div class="topic-map-post created-at">
+               <div class=" created-at">
                  <a >
                    <b class="btn-sm rounded-circle m-sm-1 bg-warning text-white font-weight-light">C</b>
                  </a>
@@ -33,7 +33,7 @@
              <li>
                <a>
                   <h4 role="presentation">last {{commentLastDate() > replyLastDate()?'comment':replyLastDate()=== undefined?'comment':'reply'}}</h4>
-                  <div class="topic-map-post last-reply">
+                  <div class="last-reply">
                     <a class="trigger-user-card " data-user-card="ToddBroeker"> <b class="btn-sm rounded-circle m-sm-1 bg-info text-white font-weight-light">R</b></a>
                   <span >{{commentLastDate() > replyLastDate()?formatDate(commentLastDate()):replyLastDate()=== undefined?formatDate(commentLastDate()):commentLastDate()=== undefined?'No reply':formatDate(replyLastDate())}}</span>
                   </div>
