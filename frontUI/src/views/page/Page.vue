@@ -49,11 +49,11 @@
               </li>
               <span v-for="count in blogHitView" :key="count.id">
               <li class="secondary">
-                <span class="number" title="3477" >{{count.viewcount}}</span>
+                <span class="number"  >{{count.viewcount}}</span>
                 <h4 role="presentation">views</h4>
               </li>
               <li class="secondary">
-                <span class="number" title="3477" >{{count.hitcount}}</span>
+                <span class="number"  >{{count.hitcount}}</span>
                 <h4 role="presentation">likes</h4>
               </li>
               </span>
