@@ -36,9 +36,8 @@ Now we will create virtual environment venv and activate a new virtual environme
  	$ python -m venv appenv
  	$ . appenv/bin/activate
 ```
-```Note: If your using windows just add ***py*** instead of python and ```
-```cmd appenv\Scripts\activate.bat``` in windows
-####For more detailed reference [Python venv](https://docs.python.org/3/tutorial/venv.html)
+```Note: If your using windows just add ***py*** instead of python ```
+#### For more detailed reference [Python venv](https://docs.python.org/3/tutorial/venv.html)
 Let’s install Django using Pipenv then create a new project called honeybee:
 ```zsh
   $ pip install django
@@ -58,7 +57,7 @@ At this point, if all the commands were entered correctly, we should see an inst
 Registering the blog application
 
 We are done with the basic setup for the honeybee, let’s start with the more advanced things like registering the honeybee application as an installed app so that Django can recognise it. Open the backend/settings.py file and update the INSTALLED_APPS section as so:
-```py 
+```python
     # honeybee/settings.py
 
     # Application definition
@@ -75,7 +74,7 @@ We are done with the basic setup for the honeybee, let’s start with the more a
 ### Defining the Blog model
 
  Let's create a model to define how the Blog items should be stored in the database, open the blog/models.py file and update it with this snippet: 
- ```py	# blog/model.py 
+ ```python	# blog/model.py 
 	from django.db import models
 	from django.contrib.auth.models import User
 
@@ -117,7 +116,7 @@ $ python manage.py migrate blog
 ```
 You should see something similar to the following:
 
-```py
+```python
 Migrations for 'blog':
   blog/migrations/0001_initial.py:
     - Create model Post
@@ -130,7 +129,7 @@ for more details [Link](https://docs.djangoproject.com/en/3.0/intro/tutorial02/)
 We can test to see that CRUD operations work on the Blog model we created using the admin interface that Django provides out of the box, but first, we will do a little configuration.
 ### Adding controls to Admin
 Open the ```blog/admin.py``` file and update it accordingly:
-```py 
+```pyython
 from django.contrib import admin
 
 # Register your models here.
@@ -163,7 +162,7 @@ Now, we will quit the server (CONTROL-C or ctrl+c) then install the djangorestfr
 $ pip install djangorestframework django-cors-headers
 ```
 We need to add rest_framework and corsheaders to the list of installed applications, so open the honeybee/settings.py file and update the **INSTALLED_APPS** and **MIDDLEWARE** sections accordingly:
- ```py
+ ```python
  # settings.py
 
     # Application definition
@@ -191,7 +190,7 @@ We need to add rest_framework and corsheaders to the list of installed applicati
     ]
 ```
 Add this code snippet to the bottom of the backend/settings.py file:
-```py
+```python
     # we whitelist localhost:8080 because that's where frontend will be served
     CORS_ORIGIN_WHITELIST = (
          'localhost:8080/'
@@ -206,7 +205,7 @@ We need serializers to convert model instances to JSON so that the frontend can 
 	$ touch blog/serializers.py
 ```
 Open the serializers.py file and update it with the following code.
-```py
+```python
 	# blog/serializers.py
 	from rest_framework import serializers
 	from .models import Post
@@ -220,7 +219,7 @@ In the code snippet above, we specified the model to work with and the fields we
 ### Creating the View
 
 We will create a PostView class in the ```blog/views.py``` file, so update it with the following code:
-```py
+```python
     # blog/views.py
 	from django.shortcuts import render
 
@@ -236,7 +235,7 @@ We will create a PostView class in the ```blog/views.py``` file, so update it wi
 The *viewsets* base class provides the implementation for CRUD operations by default, what we had to do was specify the serializer class and the query set.
 
 Head over to the ```honeybee/urls.py``` file and completely replace it with the code below. This code specifies the URL path for the API:
-```py
+```python
  # honeybee/urls.py
 
     from django.contrib import admin
