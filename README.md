@@ -36,7 +36,8 @@ Now we will create virtual environment venv and activate a new virtual environme
  	$ python -m venv appenv
  	$ . appenv/bin/activate
 ```
-```Note: If your using windows just add ``` py ``` instead of python and  ```cmd appenv\Scripts\activate.bat``` in windows```
+```Note: If your using windows just add ***py*** instead of python and ```
+```cmd appenv\Scripts\activate.bat``` in windows
 ####For more detailed reference [Python venv](https://docs.python.org/3/tutorial/venv.html)
 Let’s install Django using Pipenv then create a new project called honeybee:
 ```zsh
