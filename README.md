@@ -700,7 +700,7 @@ Above code is for example not for our code.
 
 Here we in our app `v-for` is used to render all data(all the post) from the Api. `<div class="col-md-6 p-1" v-for="(p, index) in items" :key="index"> ...</div>` handel the loop.
 
-`v-if` is used here to find the content is more then 100 letters display only 100 letters we going to use `substring()` function, `<p class="card-text" v-if="p.content.length>100">{{ p.content.substring(0, 100)+ '...' }}</p>`. `<h4 class="card-title">{{ p.title }}</h4>` in this `{{p.title}}` holds the title.
+`v-if` is used here to find the content is more then 100 letters display only 100 letters we going to use `substring()` function, `<p class="card-text"  v-if="p.content.length>100">{{ p.content.substring(0, 100)+ '...' }}</p>`. `<h4 class="card-title">{{ p.title }}</h4>` in this `{{p.title}}`  holds the title.
 
 Now we have got all post form `Django` to our `Vue` App.
 
