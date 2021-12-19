@@ -19,7 +19,7 @@
 
         #Python.
         #Pip.
-	#venv
+	#venv.
 		
  ### Setting up the Backend
 
@@ -709,6 +709,7 @@ In Next section we can see how to get Total comments, Total View, Total likes an
 Next go to the `Django` honeybee project. Open the `blog/model.py` and add this models to handel comments, reply, like, and views. 
 
 ```python
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -757,7 +758,8 @@ Then command
   $ python manage.py migrate
  ```
  Next, We can add serializers for reply, comment, and hitslike as below
- ``python
+ ```python
+ 
 from rest_framework import serializers
 from .models import Post, Comment, ReplyComment, Hitslike
 
