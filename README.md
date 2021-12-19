@@ -542,7 +542,7 @@ Open the `App.Vue` and add following component
 </template>
 ```
 The run [http://localhost:8080](http://localhost:8080) after command ,
-```bash 
+```ash
   $ npm run serve
  ```
 Then [http://localhost:8080/about](http://localhost:8080/about) to test routing, if you see the **About Page**. 
@@ -708,7 +708,7 @@ In Next section we can see how to get Total comments, Total View, Total likes an
 
 Next go to the `Django` honeybee project. Open the `blog/model.py` and add this models to handel comments, reply, like, and views. 
 
-```py
+```python
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -752,12 +752,12 @@ class Hitslike(models.Model):
 In the above `Comment` Model `post` is the foreignkey which stores the postid, Here we no need to specify `id` because `Django` create a default feild called `id`. Like that All three model have a relation with `Post` model. 
 
 Then command 
-```bash
+```zsh
   $ python manage.py makemigrations
   $ python manage.py migrate
  ```
  Next, We can add serializers for reply, comment, and hitslike as below
- ``py
+ ``python
 from rest_framework import serializers
 from .models import Post, Comment, ReplyComment, Hitslike
 
@@ -787,7 +787,7 @@ class HitsLikeSerilaizer(serializers.ModelSerializer):
 ```
 Save it, Next we add a view for all open `blog/views.py`
 
-```py
+```python
 from django.shortcuts import render
 
 # Create your views here.
@@ -839,7 +839,7 @@ class HitsLikesCountView(viewsets.ModelViewSet):  # add this
 ```
 Update your views like above. Next we can add links to those views in `honeybee/urls.py`, Open `urls.py` add
 
-```py
+```python
 """honeybee URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -872,7 +872,7 @@ urlpatterns = [
 ```
 Next, Run the server ( Note: If you controls on admin you can add those to `admin.py` [Reference](https://github.com/fussionlab/vue-Django#add-controls-to-admin) repeat the step by adding models and fields to it)
 
-```bash
+```zsh
 $ python manage.py runserver
 
 ```
@@ -1350,7 +1350,7 @@ export default {
 
 ```
 Here the scss file is store in `assets/scss/` folder, there is a reply component is add to create it do as follow:
-```bash
+```zsh
 
  $ touch src/views/page/replyModel.vue
  
@@ -1514,7 +1514,7 @@ This is an sample of reusable components, when reply text is clicked it will add
 ```
 `Note: Here ``/deep/`` on code doesn't support on chrome, ignore the warnings`
 Save the file. Run the serve 
-```bash
+```zsh
 $ npm run serve
 ```
 `Note if django server is not running run that too..`
