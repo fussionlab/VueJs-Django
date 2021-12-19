@@ -58,6 +58,7 @@ Registering the blog application
 
 We are done with the basic setup for the honeybee, let’s start with the more advanced things like registering the honeybee application as an installed app so that Django can recognise it. Open the backend/settings.py file and update the INSTALLED_APPS section as so:
 ```python
+    
     # honeybee/settings.py
 
     # Application definition
@@ -74,7 +75,8 @@ We are done with the basic setup for the honeybee, let’s start with the more a
 ### Defining the Blog model
 
  Let's create a model to define how the Blog items should be stored in the database, open the blog/models.py file and update it with this snippet: 
- ```python	# blog/model.py 
+ ```python	
+ # blog/model.py 
 	from django.db import models
 	from django.contrib.auth.models import User
 
@@ -129,7 +131,8 @@ for more details [Link](https://docs.djangoproject.com/en/3.0/intro/tutorial02/)
 We can test to see that CRUD operations work on the Blog model we created using the admin interface that Django provides out of the box, but first, we will do a little configuration.
 ### Adding controls to Admin
 Open the ```blog/admin.py``` file and update it accordingly:
-```pyython
+```python
+
 from django.contrib import admin
 
 # Register your models here.
@@ -163,7 +166,7 @@ $ pip install djangorestframework django-cors-headers
 ```
 We need to add rest_framework and corsheaders to the list of installed applications, so open the honeybee/settings.py file and update the **INSTALLED_APPS** and **MIDDLEWARE** sections accordingly:
  ```python
- # settings.py
+    # settings.py
 
     # Application definition
     INSTALLED_APPS = [
@@ -284,7 +287,7 @@ This may take a few minutes to install. You can now create a new Vue.js applicat
 where frontUI is the name of the folder for your application. You will be prompted to select a preset and you can keep the default (babel, eslint), which will use Babel to transpile the JavaScript to browser compatible ES5 and install the ESLint linter to detect coding errors. It may take a few minutes to create the Vue application and install its dependencies.
 
 Let's quickly run our Vue application by navigating to the new folder and typing npm run serve to start the web server and open the application in a browser:
-```bash
+```zsh
  $ cd frontUI
  $ npm run serve 
 ```
@@ -292,7 +295,7 @@ You should see "Welcome to your Vue.js App" on http://localhost:8080 in your bro
 
 we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
 
-```bash
+```zsh
  $ npm i bootstrap bootstrap-vue sass-loader node-sass --save
  ```
  Here i used both boostrap and bootstrap-vue, you can make your choice to use normal bootstrap or boostrap-vue. For detail reference [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) here bootstrap requires a peer of jquery@1.9.1-3 so install ```bash $ npm i jquery ``` and [Bootstrap-Vue](https://bootstrap-vue.js.org/docs/components/). We are going to use the SCSS or SASS so that sass-loader and node-sass complie scss for render.
@@ -330,7 +333,7 @@ Next We are up to create Navigation bar component or Header and Footer
 
 First we can create Navigation just commend as below:
 
-```bash
+```zsh
 $ touch src/components/Navigation.vue
 ```
 
@@ -396,7 +399,7 @@ Here we used a bootstrap-vue components import all needed components from 'boost
 
 Next create a footer of your choice here is my footer:
 
-```bash 
+```zsh
 $ touch src/components/footer.vue
 ```
 
@@ -461,13 +464,13 @@ Open the ```src/App.vue``` and add the components as below:
  Next we make a test run [http://localhost:8080](http://localhost:8080) :
  
  As we are creating a Blog, so that it needed to navigated to respective pages. We now use ```router``` to change single page app to multi page. Press ```Ctrl + c``` then command as below
- ```bash
+ ```zsh
  $ npm i vue-router
  
  ```
  after install create a folder in `src/router` then
  
- ```bash
+ ```zsh
  $ touch src/router/index.js
  ````
  
@@ -512,7 +515,7 @@ export default router
 
  ```
  On above you can see a components like `Home`, `About` and `Page` those are the components we going to create further. Create a folder in `src/views` manually or by command `$ mkdir views`. Then create files like `Home` and `About` just now.
- ```bash
+ ```zsh
  	$ touch src/views/Home.vue
 	$ touch src/views/About.vue
 	$ touch src/views/page/Page.vue
@@ -545,7 +548,7 @@ The run [http://localhost:8080](http://localhost:8080) after command ,
 Then [http://localhost:8080/about](http://localhost:8080/about) to test routing, if you see the **About Page**. 
 
 Next, proceding with connect to the `API` Before check you have add any blog post on `Django` or Press `Ctrl+c` and move to `honeybee` folder command
-```bash
+```zsh
  $ cd honeybee
  $ python manage.py runserver
 ```
@@ -570,7 +573,7 @@ Vary: Accept
 ]
 ````
 Create posts as per your wish. Let this server run. In new terminal or command prompt type:
-```bash
+```zsh
 $ npm i axios
 ```
 Let it install and on time being we can add bootstrap to our style in `src/App.vue`
