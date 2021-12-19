@@ -19,7 +19,7 @@
 
         #Python.
         #Pip.
-        #Pipenv.
+	#venv
 		
  ### Setting up the Backend
 
@@ -31,16 +31,16 @@ Next, we will navigate into the directory:
 ```zsh
 	 $ cd Vue-Django
 ```
-Now we will install Pipenv using pip and activate a new virtual environment:
+Now we will create virtual environment venv and activate a new virtual environment:
 ```zsh
- 	$ pip install pipenv
- 	$ pipenv shell
+ 	$ python -m venv appenv
+ 	$ . appenv/bin/activate
 ```
-```Note: You should skip the first command if you already have Pipenv installed. If your using windows just add ``` py ``` instead of python```
+```Note: If your using windows just add ``` py ``` instead of python and  ``appenv\Scripts\activate.bat`` in windows, For more detailed reference [Python venv](https://docs.python.org/3/tutorial/venv.html)```
 
 Let’s install Django using Pipenv then create a new project called honeybee:
 ```zsh
-  $ pipenv install django
+  $ pip install django
   $ django-admin startproject honeybee
 ```
 Next, we will navigate into the newly created backend folder and start a new application called blog. We will also run migrations and start up the server:
@@ -159,7 +159,7 @@ So far, we just done with admin! In the next section, we will see how we can cre
 
 Now, we will quit the server (CONTROL-C or ctrl+c) then install the djangorestframework and django-cors-headers using Pipenv:
 ```zsh
-$ pipenv install djangorestframework django-cors-headers
+$ pip install djangorestframework django-cors-headers
 ```
 We need to add rest_framework and corsheaders to the list of installed applications, so open the honeybee/settings.py file and update the **INSTALLED_APPS** and **MIDDLEWARE** sections accordingly:
  ```py
@@ -274,6 +274,9 @@ To install the vue/cli , in a terminal or command prompt type:
 ```zsh
  $ npm install -g @vue/cli
 ```
+```zsh
+ $ yarn add global @vue/cli
+```
 This may take a few minutes to install. You can now create a new Vue.js application by typing:
 ```bash
  $ vue create frontUI
@@ -283,7 +286,7 @@ where frontUI is the name of the folder for your application. You will be prompt
 Let's quickly run our Vue application by navigating to the new folder and typing npm run serve to start the web server and open the application in a browser:
 ```bash
  $ cd frontUI
- $ npm run serve
+ $ npm run serve 
 ```
 You should see "Welcome to your Vue.js App" on http://localhost:8080 in your browser. You can press Ctrl+C to stop the vue-cli-service server.
 
