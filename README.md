@@ -45,7 +45,7 @@ Let’s install Django using Pipenv then create a new project called honeybee:
 ```
 Next, we will navigate into the newly created backend folder and start a new application called blog. We will also run migrations and start up the server:
 ```zsh
-    $ cd hornbill
+    $ cd honeybee
     $ python manage.py startapp blog
     $ python manage.py migrate
     $ python manage.py runserver
