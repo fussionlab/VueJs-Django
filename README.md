@@ -33,7 +33,12 @@ In this section, we will set up the backend and create all the folders that we n
 	mkdir Vue-Django
 	cd Vue-Django
 ```
-
+```javascript I'm A tab
+console.log('Code Tab A');
+```
+```javascript I'm tab B
+console.log('Code Tab B');
+```
 Next, we will navigate into the directory:
 ```zsh
 	cd Vue-Django
