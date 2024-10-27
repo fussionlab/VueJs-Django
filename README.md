@@ -23,24 +23,15 @@
 		
  ## Setting up the Backend {.tabset}
 
-In this section, we will set up the backend and create all the folders that we need to get things up and running, so launch a new instance of a terminal and create the project’s directory by running this command:
+In this section, we will set up the backend and create all the folders that we need to get things up and running, so launch a new instance of a terminal and create the project’s directory and navigate by running this command:
 ### Linux/Mac
 ```zsh	  
   	mkdir Vue-Django
+	cd Vue-Django
 ```	
 ### Windows
 ```powershell	
 	mkdir Vue-Django
-	cd Vue-Django
-```
-```javascript I'm A tab
-console.log('Code Tab A');
-```
-```javascript I'm tab B
-console.log('Code Tab B');
-```
-Next, we will navigate into the directory:
-```zsh
 	cd Vue-Django
 ```
 Now we will create virtual environment venv and activate a new virtual environment:
