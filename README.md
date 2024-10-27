@@ -59,7 +59,7 @@ Let’s install Django using Pipenv then create a new project called honeybee:
 ```
 ##### Windows
 ```poweshell
-	{: style="color:yellow"}pip install django
+	pip install django
 	django-admin startproject honeybee
 ```
 Next, we will navigate into the newly created backend folder and start a new application called blog. We will also run migrations and start up the server:
