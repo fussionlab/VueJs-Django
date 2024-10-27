@@ -1,28 +1,30 @@
-## title {.tabset .tabset-fade}
-content above tabbed region.
+---
+title: "Tabbed Layout Example"
+output: 
+  html_document:
+    df_print: paged
+---
 
-### tab Social-Media
+# Title {.tabset .tabset-fade}
 
-tab content Social-Media
+Content above the tabbed region.
 
-### tab Contact
+## Social Media
+Tab content for Social Media.
 
-tab content  Contact
+## Contact
+Tab content for Contact.
 
-### tab Revisions
+## Revisions
+Tab content for Revisions.
 
-tab content  Revisions
+## Articles
+Tab content for Articles.
 
-### tab Articles
+## Skills
+Tab content for Skills.
 
-tab content  Articles
+## Insights
+Tab content for Insights.
 
-### tab Skills
-
-tab content  Skills
-
-### tab Insights
-
-tab content  Insights
-
-content below tabbed region
+Content below the tabbed region.
