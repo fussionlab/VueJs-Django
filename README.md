@@ -24,46 +24,44 @@
  ### Setting up the Backend
 
 In this section, we will set up the backend and create all the folders that we need to get things up and running, so launch a new instance of a terminal and create the project’s directory and navigate by running this command:
-##### Linux/Mac
+#### Linux/Mac
 ```zsh	  
   	mkdir Vue-Django
 	cd Vue-Django
 ```	
-##### Windows
+#### Windows
 ```powershell	
 	mkdir Vue-Django
 	cd Vue-Django
 ```
 Now we will create virtual environment venv and activate a new virtual environment:
-##### Linux/Mac
+#### Linux/Mac
 ```zsh
  	python -m venv appenv
  	. appenv/bin/activate
 ```
-##### Windows
-```poweshell
+#### Windows
+```powershell
 	py -m venv appenv
 	cd appenv/bin/
 	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 	./activate.ps1
 	cd ../../
 ```
-
-```Note: If your using windows just add ***py*** instead of python ```
-#### For more detailed reference [Python venv](https://docs.python.org/3/tutorial/venv.html)
+### For more detailed reference [Python venv](https://docs.python.org/3/tutorial/venv.html)
 Let’s install Django using Pipenv then create a new project called honeybee:
-##### Linux/Mac
+#### Linux/Mac
 ```zsh
    pip install django
    django-admin startproject honeybee
 ```
-##### Windows
-```poweshell
+#### Windows
+```powershell
 	pip install django
 	django-admin startproject honeybee
 ```
 Next, we will navigate into the newly created backend folder and start a new application called blog. We will also run migrations and start up the server:
-##### Linux/Mac
+#### Linux/Mac
 ```zsh
     cd honeybee
     python manage.py startapp blogs
@@ -77,6 +75,8 @@ Next, we will navigate into the newly created backend folder and start a new app
     py manage.py migrate
     py manage.py runserver
 ````
+> [!NOTE]
+> To Change the Port ```powershell py manage.py runserver 8080 ``` or ```zsh  python manage.py runserver 8080 ```
 At this point, if all the commands were entered correctly, we should see an instance of a Django application running on this address — http://localhost:8000
 
 ### For more detailed reference [Django Application](https://docs.djangoproject.com/en/3.0/intro/tutorial01/)
