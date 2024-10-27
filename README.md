@@ -77,6 +77,7 @@ Next, we will navigate into the newly created backend folder and start a new app
 ````
 > [!NOTE]
 > To Change the Port ```powershell py manage.py runserver 8080 ``` or ```zsh  python manage.py runserver 8080 ```
+
 At this point, if all the commands were entered correctly, we should see an instance of a Django application running on this address — http://localhost:8000
 
 ### For more detailed reference [Django Application](https://docs.djangoproject.com/en/3.0/intro/tutorial01/)
