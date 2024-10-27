@@ -21,14 +21,14 @@
         #Pip.
 	#venv.
 		
- ### Setting up the Backend {.tabset}
+ ## Setting up the Backend {.tabset}
 
 In this section, we will set up the backend and create all the folders that we need to get things up and running, so launch a new instance of a terminal and create the project’s directory by running this command:
-#### Linux/Mac
+### Linux/Mac
 ```zsh	  
   	mkdir Vue-Django
 ```	
-#### Windows
+### Windows
 ```powershell	
 	mkdir Vue-Django
 	cd Vue-Django
