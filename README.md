@@ -24,17 +24,25 @@
  ### Setting up the Backend
 
 In this section, we will set up the backend and create all the folders that we need to get things up and running, so launch a new instance of a terminal and create the project’s directory by running this command:
+<details>
+<summary>Linux/Mac</summary>
 ```zsh	  
-  	$ mkdir Vue-Django
+  	mkdir Vue-Django
 ```	
+</details> <details> <summary>Windows</summary>
+```powershell	
+	mkdir Vue-Django
+	cd Vue-Django
+```
+</details>
 Next, we will navigate into the directory:
 ```zsh
-	 $ cd Vue-Django
+	cd Vue-Django
 ```
 Now we will create virtual environment venv and activate a new virtual environment:
 ```zsh
- 	$ python -m venv appenv
- 	$ . appenv/bin/activate
+ 	python -m venv appenv
+ 	. appenv/bin/activate
 ```
 ```Note: If your using windows just add ***py*** instead of python ```
 #### For more detailed reference [Python venv](https://docs.python.org/3/tutorial/venv.html)
