@@ -24,34 +24,58 @@
  ### Setting up the Backend
 
 In this section, we will set up the backend and create all the folders that we need to get things up and running, so launch a new instance of a terminal and create the project’s directory and navigate by running this command:
-####Tab Linux/Mac
+##### Linux/Mac
 ```zsh	  
   	mkdir Vue-Django
 	cd Vue-Django
 ```	
-####Tab Windows
+##### Windows
 ```powershell	
 	mkdir Vue-Django
 	cd Vue-Django
 ```
 Now we will create virtual environment venv and activate a new virtual environment:
+##### Linux/Mac
 ```zsh
  	python -m venv appenv
  	. appenv/bin/activate
 ```
+##### Windows
+```poweshell
+	py -m venv appenv
+	cd appenv/bin/
+	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+	./activate.ps1
+	cd ../../
+```
+
 ```Note: If your using windows just add ***py*** instead of python ```
 #### For more detailed reference [Python venv](https://docs.python.org/3/tutorial/venv.html)
 Let’s install Django using Pipenv then create a new project called honeybee:
+##### Linux/Mac
 ```zsh
   $ pip install django
   $ django-admin startproject honeybee
 ```
+##### Windows
+```poweshell
+	pip install django
+	django-admin startproject honeybee
+```
 Next, we will navigate into the newly created backend folder and start a new application called blog. We will also run migrations and start up the server:
+##### Linux/Mac
 ```zsh
-    $ cd honeybee
-    $ python manage.py startapp blog
-    $ python manage.py migrate
-    $ python manage.py runserver
+    cd honeybee
+    python manage.py startapp blogs
+    python manage.py migrate
+    python manage.py runserver
+````
+##### Windows
+```powershell
+    cd honeybee
+    py manage.py startapp blogs
+    py manage.py migrate
+    py manage.py runserver
 ````
 At this point, if all the commands were entered correctly, we should see an instance of a Django application running on this address — http://localhost:8000
 
@@ -115,13 +139,19 @@ The code snippet above describes seven properties on the Blog model:
     
   Slug is url for the post by the reference of it's title and Status is for save as draft or publish the post
 
+##### Linux/Mac
 ```zsh 
-$ python manage.py makemigrations blog
-$ python manage.py migrate blog
+	python manage.py makemigrations blogs
+	python manage.py migrate blog
+```
+##### Windows
+```powershell
+	py manage.py makemigrations blogs
+	py manage.py migrate blogs
 ```
 You should see something similar to the following:
 
-```python
+```shell
 Migrations for 'blog':
   blog/migrations/0001_initial.py:
     - Create model Post
@@ -149,23 +179,37 @@ class PostAdmin(admin.ModelAdmin):
 admin.site.register(Post, PostAdmin)
 ```
 We will create a superuser account to access the admin interface with this command:
-
+##### Linux/Mac
 ```zsh
-$ python manage.py createsuperuser
+	python manage.py createsuperuser
+```
+##### Windows
+```powershell
+ 	py manage.py createsuperuser
 ```
    "You will be prompted to enter a username, email and password for the superuser. Be sure to enter details that you can remember because you will need them to log in to the admin dashboard shortly."
    
 Let’s start the server once more and log in on the address — [http://localhost:8000/admin](http://localhost:8000/admin)
+##### Linux/Mac
 ```zsh
-$ python manage.py runserver
+ python manage.py runserver
+```
+##### Windows
+```powershell
+	py manage.py runserver
 ```
 So far, we just done with admin! In the next section, we will see how we can create the API using the Django REST framework.
 
 ### Setting up the APIs
 
 Now, we will quit the server (CONTROL-C or ctrl+c) then install the djangorestframework and django-cors-headers using Pipenv:
+##### Linux/Mac
 ```zsh
-$ pip install djangorestframework django-cors-headers
+ 	pip install djangorestframework django-cors-headers
+```
+##### Windows
+```powershell
+	pip install djangorestframework django-cors-headers
 ```
 We need to add rest_framework and corsheaders to the list of installed applications, so open the honeybee/settings.py file and update the **INSTALLED_APPS** and **MIDDLEWARE** sections accordingly:
  ```python
@@ -207,9 +251,15 @@ Django-cors-headers is a python library that will help in preventing the errors 
 ### Creating serializers for the blog model
 
 We need serializers to convert model instances to JSON so that the frontend can work with the received data easily. We will create a ```blog/serializers.py``` file:
+##### Linux/Mac
 ```zsh
-	$ touch blog/serializers.py
+	touch blog/serializers.py
 ```
+##### Windows
+```powershell
+	New-Item -Path  "./blog/"  -Name "serializers.py"
+```
+
 Open the serializers.py file and update it with the following code.
 ```python
 	# blog/serializers.py
@@ -265,10 +315,15 @@ This is the final step that completes the building of the API, we can now perfor
 
 Let’s restart the server and visit this address — [http://localhost:8000/api/blog](http://localhost:8000/api/blog):
 
+##### Linux/Mac
 ```zsh
-$ python manage.py runserver
+ 	python manage.py runserver
 ```
-
+##### Windows
+```powershell
+ 	py manage.py runserver
+```
+***If want to run in diffrent port mean  ``` py manage.py runserver 8080```***
 We can perform ADD, DELETE and UPDATE operations on specific blog post using their id primary keys. To do this, we will visit an address with this structure ```/api/blog/id```. Let’s try with this address — http://localhost:8000/blog/1
 Create a first post in ```/api/blog``` add the slug field will be if your **title** is like ***My first Post*** then slug field should be like *my-first-post*.
 
