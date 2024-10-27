@@ -400,70 +400,65 @@ Next We are up to create Navigation bar component or Header and Footer
 First we can create Navigation just commend as below:
 
 ```zsh
-  touch src/components/Navigation.vue
+  touch src/components/Navi.vue
 ```
 >[!Note]
-> For Windows ``` echo $null > src/components/Navigation.vue ``` or ``` New-Item Path "./src/components/" Name "Navigation.vue" ```
+> For Windows ``` echo $null > src/components/Navi.vue ``` or ``` New-Item Path "./src/components/" Name "Navi.vue" ```
 
-Now open the ```src/components/Navigation.vue``` write down as below:
+Now open the ```src/components/Navi.vue``` write down as below:
 
 ```html
 <template>
-    <div>
-  <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="#">Hornbill</b-navbar-brand>
-
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-        <b-nav-item href="/">Home</b-nav-item>
-      </b-navbar-nav>
-      <b-navbar-nav class="p-2">
-       <b-nav-item href="/blog">Blog</b-nav-item>
-       <b-nav-item href="/about">About</b-nav-item>
-     </b-navbar-nav>
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-        </b-nav-form>
-
-        <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
-          <template v-slot:button-content>
-            <em>User</em>
-          </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
+<div class="bg-info">
+<nav class="container  navbar navbar-expand-lg navbar-dark bg-info d-flex justify-content-between">
+  <div>
+  <a class="navbar-brand" href="#">Hornbill</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-collapse" aria-controls="nav-collapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  </div>
+  <div class="collapse navbar-collapse" id="nav-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/blog">Blog</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about">About</a>
+      </li>
+    </ul>
+  </div>
+  <div>
+  <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <em>User</em>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">Sign Out</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
 </div>
 </template>
 <script>
-import {BNavbarNav, BNavItem, BNavbar, BNavForm,BFormInput, BNavItemDropdown,BDropdownItem, BNavbarBrand, BCollapse, BNavbarToggle, BButton} from 'bootstrap-vue';
+
 export default {
     name:'Navi',
-    components:{
-        'b-navbar-brand':BNavbarBrand,
-        'b-dropdown-item':BDropdownItem,
-        'b-navbar':BNavbar,
-        'b-nav-item':BNavItem,
-        'b-collapse':BCollapse,
-        'b-nav-item-dropdown':BNavItemDropdown,
-        'b-nav-form':BNavForm,
-        'b-navbar-toggle':BNavbarToggle,
-        'b-button':BButton,
-        'b-navbar-nav':BNavbarNav,
-        'b-form-input':BFormInput,
-    }
+   
 }
 </script>
 ```
-Here we used a bootstrap-vue components import all needed components from 'boostrap-vue' for the reference [https://bootstrap-vue.js.org/docs/components/navbar](https://bootstrap-vue.js.org/docs/components/navbar). you can use any navbar as you like.
+>[!Note]
+> If Need to use a bootstrap-vue components import all needed components from 'boostrap-vue' for the reference [https://bootstrap-vue.js.org/docs/components/navbar](https://bootstrap-vue.js.org/docs/components/navbar). you can use any navbar as you like.
+
+>[!Warning]
+> bootstrap-vue doesn't support sass@6
 
 Next create a footer of your choice here is my footer:
 
