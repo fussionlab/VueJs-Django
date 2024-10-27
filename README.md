@@ -54,12 +54,12 @@ Now we will create virtual environment venv and activate a new virtual environme
 Let’s install Django using Pipenv then create a new project called honeybee:
 ##### Linux/Mac
 ```zsh
-  $ pip install django
-  $ django-admin startproject honeybee
+   pip install django
+   django-admin startproject honeybee
 ```
 ##### Windows
 ```poweshell
-	pip install django
+	{: style="color:yellow"}pip install django
 	django-admin startproject honeybee
 ```
 Next, we will navigate into the newly created backend folder and start a new application called blog. We will also run migrations and start up the server:
