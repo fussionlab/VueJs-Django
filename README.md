@@ -359,12 +359,12 @@ Let's quickly run our Vue application by navigating to the new folder and typing
 ```
 You should see "Welcome to your Vue.js App" on  http://localhost:5173/ in your browser. You can press Ctrl+C to stop the vue-cli-service server.
 
-we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
+we need to install bootstrap, sass-loader and node-sass
 
 ```zsh
-  npm i bootstrap bootstrap-vue sass-loader node-sass --save
+  npm i bootstrap sass-loader node-sass --save
  ```
- Here i used both boostrap and bootstrap-vue, you can make your choice to use normal bootstrap or boostrap-vue. For detail reference [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) here bootstrap requires a peer of jquery@1.9.1-3 so install ```bash $ npm i jquery ``` and [Bootstrap-Vue](https://bootstrap-vue.js.org/docs/components/). We are going to use the SCSS or SASS so that sass-loader and node-sass complie scss for render.
+ Here i used both boostrap you can make your choice to use normal bootstrap or boostrap-vue. For detail reference [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/) here bootstrap requires a peer of jquery@1.9.1-3 so install ```bash $ npm i jquery ``` and [Bootstrap-Vue](https://bootstrap-vue.org/). We are going to use the SCSS or SASS so that sass-loader and node-sass complie scss for render.
  ### Setting App
  Open the ```src/App.vue``` you can see code as below:
  ```html
@@ -524,7 +524,7 @@ Open the ```src/App.vue``` and add the components as below:
 </style>
 
  ```
- Next we make a test run [http://localhost:8080](http://localhost:8080) :
+ Next we make a test run [ http://localhost:5173]( http://localhost:5173) :
  
  As we are creating a Blog, so that it needed to navigated to respective pages. We now use ```router``` to change single page app to multi page. Press ```Ctrl + c``` then command as below
  ```zsh
@@ -539,8 +539,7 @@ Open the ```src/App.vue``` and add the components as below:
  
  Open the ```src/router/index.js``` file and write down the code as below:
  ```js
-import Vue from 'vue'
-import VueRouter from '../../node_modules/vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home'
 import Page from '../views/page/Page'
 
@@ -568,21 +567,26 @@ const routes = [
   
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+const router = createRouter({
+  history: createWebHistory(), // Change here
+  routes,
 })
 
-export default router
-
+export default router;
  ```
  On above you can see a components like `Home`, `About` and `Page` those are the components we going to create further. Create a folder in `src/views` manually or by command `$ mkdir views`. Then create files like `Home` and `About` just now.
+ 
  ```zsh
- 	$ touch src/views/Home.vue
-	$ touch src/views/About.vue
-	$ touch src/views/page/Page.vue
-```
+ 	touch src/views/Home.vue
+	touch src/views/About.vue
+	touch src/views/page/Page.vue
+ ```
+or For Windows
+```zsh
+ 	echo $null > src/views/Home.vue
+	echo $null > src/views/About.vue
+	echo $null > src/views/page/Page.vue
+ ```
 Open Home and add one `<h1></h1>` tag in `template`
 ```html
 <template>
@@ -600,22 +604,36 @@ Open the `App.Vue` and add following component
 ```html
 <template>
 	<Navi />
-	 <router-view/>
+	 <RouterView />
 	<AppFooter />
 </template>
+<script>
+import Navi from './components/navi.vue'
+import Footers  from './components/footer.vue'
+import { RouterView } from 'vue-router';  // Import RouterView
+
+export default {
+  name:'app',
+  components:{
+    Navi,
+    Footers,
+    RouterView
+  }
+}
+</script>
 ```
-The run [http://localhost:8080](http://localhost:8080) after command ,
-```ash
-  $ npm run serve
+The run [ http://localhost:5173]( http://localhost:5173) after command ,
+```bash
+   npm run dev
  ```
-Then [http://localhost:8080/about](http://localhost:8080/about) to test routing, if you see the **About Page**. 
+Then [ http://localhost:5173/about]( http://localhost:5173/about) to test routing, if you see the **About Page**. 
 
 Next, proceding with connect to the `API` Before check you have add any blog post on `Django` or Press `Ctrl+c` and move to `honeybee` folder command
 ```zsh
  $ cd honeybee
  $ python manage.py runserver
 ```
-Then run [http://localhost:8000/api/blog](http://localhost:8080/api/blog/) create the blog post after yo can see something like this
+Then run [http://localhost:8000/api/blog]( http://localhost:5173/api/blog/) create the blog post after yo can see something like this
 ```
 HTTP 200 OK
 Allow: GET, POST, HEAD, OPTIONS
@@ -1095,8 +1113,7 @@ Next open the `src/App.vue` and modify the `style` tag code by adding colors to 
 ```html
 ...
 <style lang="scss">
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-@import 'assets/fontawesome/css/all.min.css';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -1409,7 +1426,7 @@ export default {
 </script>
 <style lang="scss" >
 .blog {
- @import '../../assets/scss/page';
+ @use '../../assets/scss/page';
 }
 </style>
 
@@ -1417,7 +1434,7 @@ export default {
 Here the scss file is store in `assets/scss/` folder, there is a reply component is add to create it do as follow:
 ```zsh
 
- $ touch src/views/page/replyModel.vue
+  touch src/views/page/replyModel.vue
  
  ```
  Open the `replyModel.vue` and add code as below:
@@ -1451,10 +1468,7 @@ export default {
 
  ```
 This is an sample of reusable components, when reply text is clicked it will add this modal to our comment section. Here is the `page.scss` file code (create it on `/assets/scss` folder or `views/page/` any where you like but add the location correctly or else it through a runtime error.) 
-```css
-
-
-
+```scss
     nav {
       background-color: #5fcbdc;
       .breadcrumb {
@@ -1520,7 +1534,7 @@ This is an sample of reusable components, when reply text is clicked it will add
         color: #42b883;
       }
     }
-    /deep/ {
+    :deep(){
       h1 {
         font-size: 3rem;
         margin-bottom: 0.2rem;
@@ -1577,10 +1591,17 @@ This is an sample of reusable components, when reply text is clicked it will add
     }
    }
 ```
-`Note: Here ``/deep/`` on code doesn't support on chrome, ignore the warnings`
+>[!Note]
+> Here ``/deep/`` on code doesn't support on chrome, ignore the warnings`
+
+Update style.scss
+```scss
+	@use 'bootstrap/scss/bootstrap';
+	@import "./assets/fontawesome/css/all.min.css";
+```
 Save the file. Run the serve 
 ```zsh
-$ npm run serve
+ npm run dev
 ```
 `Note if django server is not running run that too..`
 
