@@ -324,7 +324,7 @@ Let’s restart the server and visit this address — [http://localhost:8000/api
 ```powershell
  	py manage.py runserver
 ```
-***If want to run in diffrent port mean  ``` py manage.py runserver 8080```***
+
 We can perform ADD, DELETE and UPDATE operations on specific blog post using their id primary keys. To do this, we will visit an address with this structure ```/api/blog/id```. Let’s try with this address — http://localhost:8000/blog/1
 Create a first post in ```/api/blog``` add the slug field will be if your **title** is like ***My first Post*** then slug field should be like *my-first-post*.
 
@@ -334,28 +334,35 @@ We have our backend running as it should, now we will create our frontend and ma
 
 To install the vue/cli , in a terminal or command prompt type:
 ```zsh
- $ npm install -g @vue/cli
+ 	npm install -g @vue/cli
 ```
+or
 ```zsh
- $ yarn add global @vue/cli
+   yarn add global @vue/cli
 ```
 This may take a few minutes to install. You can now create a new Vue.js application by typing:
 ```bash
- $ vue create frontUI
+ 	vue create frontUI
 ```
+```zsh
+	npm create vue@latest frontUI
+```
+For Refrence [https://vuejs.org/guide/quick-start](https://vuejs.org/guide/quick-start)
 where frontUI is the name of the folder for your application. You will be prompted to select a preset and you can keep the default (babel, eslint), which will use Babel to transpile the JavaScript to browser compatible ES5 and install the ESLint linter to detect coding errors. It may take a few minutes to create the Vue application and install its dependencies.
 
 Let's quickly run our Vue application by navigating to the new folder and typing npm run serve to start the web server and open the application in a browser:
 ```zsh
- $ cd frontUI
- $ npm run serve 
+ cd frontUI
+ npm install
+ npm run format
+ npm run dev
 ```
-You should see "Welcome to your Vue.js App" on http://localhost:8080 in your browser. You can press Ctrl+C to stop the vue-cli-service server.
+You should see "Welcome to your Vue.js App" on  http://localhost:5173/ in your browser. You can press Ctrl+C to stop the vue-cli-service server.
 
 we need to install bootstrap, bootstrap-vue, sass-loader and  node-sass
 
 ```zsh
- $ npm i bootstrap bootstrap-vue sass-loader node-sass --save
+  npm i bootstrap bootstrap-vue sass-loader node-sass --save
  ```
  Here i used both boostrap and bootstrap-vue, you can make your choice to use normal bootstrap or boostrap-vue. For detail reference [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/) here bootstrap requires a peer of jquery@1.9.1-3 so install ```bash $ npm i jquery ``` and [Bootstrap-Vue](https://bootstrap-vue.js.org/docs/components/). We are going to use the SCSS or SASS so that sass-loader and node-sass complie scss for render.
  ### Setting App
@@ -393,8 +400,10 @@ Next We are up to create Navigation bar component or Header and Footer
 First we can create Navigation just commend as below:
 
 ```zsh
-$ touch src/components/Navigation.vue
+  touch src/components/Navigation.vue
 ```
+>[!Note]
+> For Windows ``` echo $null > src/components/Navigation.vue ``` or ``` New-Item Path "./src/components/" Name "Navigation.vue" ```
 
 Now open the ```src/components/Navigation.vue``` write down as below:
 
