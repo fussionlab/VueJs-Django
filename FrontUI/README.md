@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Build a Simple Blog application Using Django and VUE 
     
     Vue CLI and Django Reset framework
@@ -1523,10 +1521,9 @@ $ npm run serve
 `Note if django server is not running run that too..`
 
 #### In next tutorial we can see how to add admin page and control the post from admin page.
-=======
+
 # Vue 3 + Vite
 
 This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
 Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
->>>>>>> edf5d72 (UI)
