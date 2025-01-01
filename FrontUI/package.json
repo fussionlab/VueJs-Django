@@ -1,6 +1,5 @@
 {
   "name": "hornbill",
-<<<<<<< HEAD
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -39,7 +38,6 @@
     "vue-template-compiler": "^2.6.10"
   },
   "proxy": "http://localhost:8000"
-=======
   "private": true,
   "version": "2.0.0",
   "type": "module",
@@ -62,5 +60,4 @@
     "sass": "^1.80.3",
     "vite": "^5.4.8"
   }
->>>>>>> 990206a (Vite 3 , Vue 3 and Django)
 }
