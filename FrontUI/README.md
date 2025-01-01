@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # hornbill
 ```
 Creating a blog frontend with vue cli and Backend with Python Django API
