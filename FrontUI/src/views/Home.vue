@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   header :{
        headers: {
@@ -73,18 +72,18 @@ export default {
   },
   methods: {
     fetchItems() {
-      axios.get("http://localhost:8080/api/blog/", this.header).then(response => {
+      fetch("http://localhost:8080/api/blog/", this.header).then(response => {
         this.items = response.data;
       });
     },
     fetchCommentCount(){
-      axios.get("http://localhost:8080/api/comment/", this.header)
+      fetch("http://localhost:8080/api/comment/", this.header)
       .then(response => {
         this.comments = response.data;
       });
     },
     fetchHitLike(){
-      axios.get("http://localhost:8080/api/hitlike/", this.header)
+      fetch("http://localhost:8080/api/hitlike/", this.header)
       .then(response => {
         this.hitlike = response.data;
       });
@@ -150,3 +149,4 @@ export default {
   }
 }
 </style>
+
